@@ -2,29 +2,22 @@
 
 #pragma once
 
-#include "Tile.h"
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TileMap.generated.h"
+#include "Tile.generated.h"
 
 UCLASS()
-class PROJECTDUGONG_API ATileMap : public AActor
+class PROJECTDUGONG_API ATile : public AActor
 {
 	GENERATED_BODY()
 	
+public:	
+	// Sets default values for this actor's properties
+	ATile();
 
-private: //Private member variables and functions
-	//1D array for 2D map
-	TArray<ATile*> Map;
-	int rows, cols;
-
-
-
-public:	//ctors
-// Sets default values for this actor's properties
-	ATileMap();
-
+	// Called when placed in editor
+	virtual void OnConstruction(const FTransform& Transform) override;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,7 +25,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void spawnATile();
-
+	
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* tileMesh;
+	
 	
 };
