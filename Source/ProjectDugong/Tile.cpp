@@ -7,12 +7,15 @@
 
 // Sets default values
 ATile::ATile(){
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+	//Attach static mesh component
 	tileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TileMesh"));
-
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> VarbaleName(TEXT("/Engine/BasicShapes/Plane.Plane"));
-
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> meshRef(TEXT("/Engine/BasicShapes/Plane.Plane"));
+	if (meshRef.Object) {
+		tileMesh->SetStaticMesh(meshRef.Object);
+	}
 }
 
 void ATile::OnConstruction(const FTransform& Transform){

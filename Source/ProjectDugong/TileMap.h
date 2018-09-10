@@ -22,7 +22,7 @@ private: //Private member variables and functions
 
 
 public:	//ctors
-// Sets default values for this actor's properties
+	// Sets default values for this actor's properties
 	ATileMap();
 
 protected:
@@ -32,7 +32,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void spawnATile();
+	void SpawnATile();
 
 	
 };
