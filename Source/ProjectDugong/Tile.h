@@ -14,7 +14,7 @@ class PROJECTDUGONG_API ATile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ATile();
-
+	ATile(FVector location, FRotator rotation);
 	// Called when placed in editor
 	virtual void OnConstruction(const FTransform& Transform) override;
 	

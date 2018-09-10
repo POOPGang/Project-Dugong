@@ -16,8 +16,12 @@ class PROJECTDUGONG_API ATileMap : public AActor
 
 private: //Private member variables and functions
 	//1D array for 2D map
-	TArray<ATile*> Map;
+	TArray<ATile*> map;
 	int rows, cols;
+	int tileSize, tilePadding;
+
+	void GenerateMap();
+	void SpawnMap();
 
 
 

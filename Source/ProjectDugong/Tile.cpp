@@ -18,6 +18,12 @@ ATile::ATile(){
 	}
 }
 
+//Delegates to default constructor, then sets location and rotation
+ATile::ATile(FVector location, FRotator rotation) : ATile() {
+	this->SetActorLocation(location);
+	this->SetActorRotation(rotation);
+}
+
 void ATile::OnConstruction(const FTransform& Transform){
 	Super::OnConstruction(Transform);
 }
