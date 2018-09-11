@@ -48,7 +48,7 @@ void ATileMap::BeginPlay(){
 	Super::BeginPlay();
 
 	GenerateMap();
-	//SpawnMap();
+	SpawnMap();
 	
 	
 }
