@@ -34,6 +34,7 @@ void ATileMap::GenerateMap() {
 		}
 	}
 }
+
 void ATileMap::SpawnMap() {
 	for (ATile* tile : map) {
 		//GetWorld()->SpawnActor<ATile>(tile->GetActorLocation, tile->GetActorRotation);
