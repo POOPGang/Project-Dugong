@@ -12,6 +12,7 @@ By combining these ideas from various games and forming them into one cohesive p
 
 ## Prerequisites: ##
 * Visual Studio 2017
+  * Ensure that your Visual Studio Installation includes the "Game Development with C++" installer option.
 * Unreal Engine 4.20
 
 ## Actual Build Instructions: ##
