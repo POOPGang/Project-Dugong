@@ -28,6 +28,6 @@ public:
 	
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* tileMesh;
-	
+	AActor* actorOnTile;
 	
 };

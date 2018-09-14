@@ -3,21 +3,33 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "PrototypeUnit.generated.h"
+#include "GameFramework/Character.h"
+#include "BaseUnit.generated.h"
 
 UCLASS()
-class PROJECTDUGONG_API APrototypeUnit : public APawn
+class PROJECTDUGONG_API ABaseUnit : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	APrototypeUnit();
+	// Sets default values for this character's properties
+	ABaseUnit();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	FString name;
+	UPROPERTY(VisibleAnywhere)
+	int hp;
+	UPROPERTY(VisibleAnywhere)
+	int mobility;
+	UPROPERTY(VisibleAnywhere)
+	int aim;
+	UPROPERTY(VisibleAnywhere)
+	int ap;
 
 public:	
 	// Called every frame

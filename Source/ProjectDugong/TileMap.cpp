@@ -2,6 +2,7 @@
 
 #include "TileMap.h"
 #include "Tile.h"
+#include "UObject/ConstructorHelpers.h"
 
 #include "Engine/World.h"
 
@@ -13,6 +14,10 @@ ATileMap::ATileMap() {
 	//You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	static ConstructorHelpers::FObjectFinder<UBlueprint> BaseUnitBlueprint(TEXT("Blueprint'/Game/Blueprints/BaseUnit_BP.BaseUnit_BP'"));
+	if (BaseUnitBlueprint.Object) {
+		unit = (UClass*)BaseUnitBlueprint.Object->GeneratedClass;
+	}
 	rows = 10;
 	cols = 10;
 	tileSize = 100;
@@ -35,10 +40,8 @@ void ATileMap::GenerateMap() {
 	}
 }
 
-void ATileMap::SpawnMap() {
-	for (ATile* tile : map) {
-		//GetWorld()->SpawnActor<ATile>(tile->GetActorLocation, tile->GetActorRotation);
-	}
+void ATileMap::SpawnUnits() {
+	
 }
 
 
@@ -49,7 +52,7 @@ void ATileMap::BeginPlay(){
 	Super::BeginPlay();
 
 	GenerateMap();
-	SpawnMap();
+	//SpawnMap();
 	
 	
 }
