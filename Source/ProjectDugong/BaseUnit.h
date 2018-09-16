@@ -14,6 +14,7 @@ class PROJECTDUGONG_API ABaseUnit : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ABaseUnit();
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 protected:
 	// Called when the game starts or when spawned
