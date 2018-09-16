@@ -29,11 +29,6 @@ void ATileMap::GenerateMap() {
 			ATile* tile = GetWorld()->SpawnActor<ATile>(tileBP, location, rotation, spawnInfo);
 			
 			map.Add(tile);
-
-			
-			//ATile* tile = NewObject<ATile>();
-			//tile->SetActorLocation(location);
-			//tile->SetActorRotation(rotation);
 		}
 	}
 }
@@ -47,6 +42,7 @@ void ATileMap::SpawnUnits() {
 	
 	FRotator rotation = tile->GetActorRotation();
 	FActorSpawnParameters spawnInfo;
+	
 	map[0]->actorOnTile = GetWorld()->SpawnActor<ABaseUnit>(unitBP, location, rotation, spawnInfo);
 }
 
@@ -72,9 +68,6 @@ void ATileMap::BeginPlay(){
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
 		}
 	}
-		
-	
-	
 }
 
 //Public Functions

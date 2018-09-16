@@ -16,9 +16,11 @@ public:
 	ABaseUnit();
 	virtual void OnConstruction(const FTransform& Transform) override;
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -32,6 +34,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	int ap;
 
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -39,6 +42,4 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
-	
 };

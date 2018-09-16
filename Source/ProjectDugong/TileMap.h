@@ -19,8 +19,6 @@ private: //Private member variables and functions
 	//1D array for 2D map
 	TArray<ATile*> map;
 
-	
-
 	int rows, cols;
 	int tileSize, tilePadding;
 
@@ -28,14 +26,15 @@ private: //Private member variables and functions
 	void SpawnUnits();
 
 
-
 public:	//ctors
 	// Sets default values for this actor's properties
 	ATileMap();
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 public:	
 	UPROPERTY(EditAnywhere)
@@ -43,9 +42,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ATile> tileBP;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void SpawnTile(int x, int y, int z);
 
-	
 };
