@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Tile.h"
+#include "BaseUnit.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -17,26 +18,33 @@ class PROJECTDUGONG_API ATileMap : public AActor
 private: //Private member variables and functions
 	//1D array for 2D map
 	TArray<ATile*> map;
+
 	int rows, cols;
 	int tileSize, tilePadding;
 
 	void GenerateMap();
-	void SpawnMap();
-
+	void SpawnUnits();
 
 
 public:	//ctors
 	// Sets default values for this actor's properties
 	ATileMap();
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
 public:	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ABaseUnit> unitBP;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ATile> tileBP;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void SpawnTile(int x, int y, int z);
 
-	
 };

@@ -7,3 +7,17 @@ The game we create **will lead to** another fantastic addition to video game fan
 **Unlike our competitors** in the genre, such as X-COM and Hand of Fate, we look to **offer** a multi-layer style game that will place the player into an immersive, board-game like strategic layer, where choices the player makes will help or hinder them on their journey, and combining it with a turn-based tactical layer, where micromanaging and thorough planning can bring the player victory. 
 
 By combining these ideas from various games and forming them into one cohesive package, we can hopefully show that the melding of different mechanics from seemingly different games can yield fun and long-lasting results.
+
+# **Build Instructions** #
+
+## Prerequisites: ##
+* Visual Studio 2017
+  * Ensure that your Visual Studio Installation includes the "Game Development with C++" installer option.
+* Unreal Engine 4.20
+
+## Actual Build Instructions: ##
+1. Clone repository
+2. Right click on ProjectDugong.uproject and click Generate Visual Studio Project Files
+3. Build the project from Visual Studio
+4. Run the project from Visual Studio or the Unreal Editor
+5. Click Launch Game to compile the game into a standalone execuatble.

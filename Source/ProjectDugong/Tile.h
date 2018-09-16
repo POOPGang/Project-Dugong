@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "BaseUnit.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Tile.generated.h"
@@ -17,17 +19,17 @@ public:
 	ATile(FVector location, FRotator rotation);
 	// Called when placed in editor
 	virtual void OnConstruction(const FTransform& Transform) override;
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+private:
+	bool isOccupied;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* tileMesh;
-	
+	ABaseUnit* actorOnTile;
 	
 };
