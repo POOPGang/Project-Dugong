@@ -11,11 +11,16 @@ ATile::ATile(){
 	PrimaryActorTick.bCanEverTick = true;
 	
 	//Attach static mesh component
-	tileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TileMesh"));
+	/*tileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TileMesh"));
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> meshRef(TEXT("/Engine/BasicShapes/Plane.Plane"));
 	if (meshRef.Object) {
 		tileMesh->SetStaticMesh(meshRef.Object);
-	}
+	}*/
+
+	//Set default values
+	isOccupied = false;
+	actorOnTile = nullptr;
+
 }
 
 //Delegates to default constructor, then sets location and rotation
