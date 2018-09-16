@@ -8,16 +8,11 @@
 
 
 //ctors
-// Sets default values
 ATileMap::ATileMap() {
 	// Set this actor to call Tick() every frame.  
 	//You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> BaseUnitBlueprint(TEXT("Blueprint'/Game/Blueprints/BaseUnit_BP.BaseUnit_BP'"));
-	if (BaseUnitBlueprint.Object) {
-		unit = (UClass*)BaseUnitBlueprint.Object->GeneratedClass;
-	}
 	rows = 10;
 	cols = 10;
 	tileSize = 100;
@@ -31,17 +26,28 @@ void ATileMap::GenerateMap() {
 			FVector	location(i * (tileSize + (tilePadding / 2)), j * (tileSize + (tilePadding / 2)), 0);
 			FRotator rotation(0, 0, 0);
 			FActorSpawnParameters spawnInfo;
-			ATile* tile = GetWorld()->SpawnActor<ATile>(location, rotation, spawnInfo);
+			ATile* tile = GetWorld()->SpawnActor<ATile>(tileBP, location, rotation, spawnInfo);
+			
+			map.Add(tile);
+
+			
 			//ATile* tile = NewObject<ATile>();
 			//tile->SetActorLocation(location);
 			//tile->SetActorRotation(rotation);
-			map.Add(tile);
 		}
 	}
 }
 
 void ATileMap::SpawnUnits() {
+	ATile* tile = map[0];
 	
+	//Place unit at tile location + 83 in the Z direction (83 is unit height).
+	FVector location = tile->GetActorLocation();
+	location.Z += 83;
+	
+	FRotator rotation = tile->GetActorRotation();
+	FActorSpawnParameters spawnInfo;
+	map[0]->actorOnTile = GetWorld()->SpawnActor<ABaseUnit>(unitBP, location, rotation, spawnInfo);
 }
 
 
@@ -50,9 +56,23 @@ void ATileMap::SpawnUnits() {
 // Called when the game starts or when spawned
 void ATileMap::BeginPlay(){
 	Super::BeginPlay();
-
-	GenerateMap();
-	//SpawnMap();
+	if (tileBP) 
+		GenerateMap();
+	else {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to generate Tile Map. Please supply tile blueprint in editor"));
+		}
+	}
+	
+	if (unitBP) {
+		SpawnUnits();
+	}
+	else {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
+		}
+	}
+		
 	
 	
 }
