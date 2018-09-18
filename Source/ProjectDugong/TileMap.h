@@ -36,7 +36,7 @@ private: //Private member variables and functions
 
 	TArray<Point> map;
 	
-	void CreateTile(int row, int col);
+	void CreateTile(int row, int col, int meshSectionIndex);
 	void GenerateMap();
 	void SpawnUnits();
 
@@ -55,8 +55,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABaseUnit> unitBP;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<ATile> tileBP;
 
 	UPROPERTY(EditAnywhere)
 	int rows;

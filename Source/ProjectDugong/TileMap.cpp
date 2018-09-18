@@ -16,6 +16,12 @@ ATileMap::ATileMap() {
 
 	mapMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("MapMesh"));
 	SetRootComponent(mapMesh);
+	mapMesh->bUseAsyncCooking = true;
+
+	rows = 10;
+	cols = 10;
+	tileSize = 100;
+	tilePadding = 10;
 
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
@@ -23,34 +29,58 @@ ATileMap::ATileMap() {
 		}
 	}
 	
-	rows = 10;
-	cols = 10;
-	tileSize = 100;
-	tilePadding = 10;
+
 }
 
 //Private Functions
-void ATileMap::CreateTile(int row, int col) {
+void ATileMap::CreateTile(int row, int col, int meshSectionIndex) {
 	//https://www.youtube.com/watch?v=dKlMEmVgbvg
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Position: %d %d "), row, col));
 	TArray<FVector> vertices;
-	TArray<int32> triangles;
+	TArray<int32> indices;
 	TArray<FVector> normals;
 	TArray<FVector2D> UV0;
 	TArray<FColor> vertexColors;
 	TArray<FProcMeshTangent> tangents;
 
 	//Add vertecies 
-	FVector origin = (0 + (row * tileSize + tilePadding), 0 + (row * tileSize + tilePadding), 0);
+	FVector origin;
+	origin.X = 0 + (row * tileSize + tilePadding);
+	origin.Y = origin.X;
+	origin.Z = 0;
+
 	vertices.Add(origin);
 	vertices.Add(FVector(origin.X, origin.Y + tileSize, 0));
 	vertices.Add(FVector(origin.X + tileSize, origin.Y, 0));
 	vertices.Add(FVector(origin.X + tileSize, origin.Y + tileSize, 0));
 	
+	//Set triangle Indexes
+	indices.Add(0);
+	indices.Add(1);
+	indices.Add(2);
+	indices.Add(3);
+	indices.Add(2);
+	indices.Add(1);
+
+	//Set UV (Texture) Coordinates
+	UV0.Add(FVector2D(0, 0));
+	UV0.Add(FVector2D(0, 1));
+	UV0.Add(FVector2D(1, 0));
+	UV0.Add(FVector2D(1, 1));
+
+	//Add tile to procedural mesh.
+	mapMesh->CreateMeshSection(meshSectionIndex, vertices, indices, normals, UV0, vertexColors, tangents, true);
 
 }
 
 void ATileMap::GenerateMap() {
-	//UStaticMesh *tile = tileBP->
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Generating Map"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Size: %d "), map.Num()));
+
+	for (int i = 0; i < map.Num(); i++) {
+		CreateTile(map[i].x, map[i].y, i);
+	}
 }
 
 void ATileMap::SpawnUnits() {
@@ -74,12 +104,7 @@ void ATileMap::BeginPlay(){
 	Super::BeginPlay();
 	
 	//Procedurally generate a map mesh
-	if (tileBP) {
-		GenerateMap();
-	}
-	else if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
-	}
+	GenerateMap();
 
 	//Place units on board.
 	if (unitBP) {
