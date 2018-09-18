@@ -5,6 +5,8 @@
 #include "Tile.h"
 #include "BaseUnit.h"
 
+#include "ProceduralMeshComponent.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TileMap.generated.h"
@@ -17,11 +19,17 @@ class PROJECTDUGONG_API ATileMap : public AActor
 
 private: //Private member variables and functions
 	//1D array for 2D map
-	TArray<ATile*> map;
+	//TArray<ATile*> map;
 
-	int rows, cols;
-	int tileSize, tilePadding;
+	//The procedurally generated map mesh.
+	UProceduralMeshComponent* mapMesh;
+	
+	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
+	TArray<TArray<int32>> map;
 
+	
+
+	void CreateTile();
 	void GenerateMap();
 	void SpawnUnits();
 
@@ -42,6 +50,18 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ATile> tileBP;
+	
+	UPROPERTY(EditAnywhere)
+	int rows;
+
+	UPROPERTY(EditAnywhere)
+	int cols;
+
+	UPROPERTY(EditAnywhere)
+	int tileSize; 
+	
+	UPROPERTY(EditAnywhere)
+	int tilePadding;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -13,6 +13,8 @@ ATileMap::ATileMap() {
 	//You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	mapMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("MapMesh"));
+
 	rows = 10;
 	cols = 10;
 	tileSize = 100;
@@ -20,8 +22,21 @@ ATileMap::ATileMap() {
 }
 
 //Private Functions
+void ATileMap::CreateTile() {
+	TArray<FVector> vertices;
+	TArray<int32> triangles;
+	TArray<FVector> normals;
+	TArray<FVector2D> UV0;
+	TArray<FColor> vertexColors;
+	TArray<FProcMeshTangent> tangents;
+
+	if (tileBP) {
+	
+	}
+}
+
 void ATileMap::GenerateMap() {
-	for (int i = 0; i < rows; i++) {
+	/*for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			FVector	location(i * (tileSize + (tilePadding / 2)), j * (tileSize + (tilePadding / 2)), 0);
 			FRotator rotation(0, 0, 0);
@@ -30,20 +45,20 @@ void ATileMap::GenerateMap() {
 			
 			map.Add(tile);
 		}
-	}
+	}*/
 }
 
 void ATileMap::SpawnUnits() {
-	ATile* tile = map[0];
-	
-	//Place unit at tile location + 83 in the Z direction (83 is unit height).
-	FVector location = tile->GetActorLocation();
-	location.Z += 83;
-	
-	FRotator rotation = tile->GetActorRotation();
-	FActorSpawnParameters spawnInfo;
-	
-	map[0]->actorOnTile = GetWorld()->SpawnActor<ABaseUnit>(unitBP, location, rotation, spawnInfo);
+	//ATile* tile = map[0];
+	//
+	////Place unit at tile location + 83 in the Z direction (83 is unit height).
+	//FVector location = tile->GetActorLocation();
+	//location.Z += 83;
+	//
+	//FRotator rotation = tile->GetActorRotation();
+	//FActorSpawnParameters spawnInfo;
+	//
+	//map[0]->actorOnTile = GetWorld()->SpawnActor<ABaseUnit>(unitBP, location, rotation, spawnInfo);
 }
 
 
