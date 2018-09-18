@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Tile.h"
 #include "BaseUnit.h"
+#include "Tile.h"
 
 #include "ProceduralMeshComponent.h"
 
@@ -12,8 +12,7 @@
 #include "TileMap.generated.h"
 
 UCLASS()
-class PROJECTDUGONG_API ATileMap : public AActor
-{
+class PROJECTDUGONG_API ATileMap : public AActor{
 	GENERATED_BODY()
 	
 
@@ -25,11 +24,19 @@ private: //Private member variables and functions
 	UProceduralMeshComponent* mapMesh;
 	
 	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
-	TArray<TArray<int32>> map;
-
 	
 
-	void CreateTile();
+	typedef struct Point {
+		int x;
+		int y;
+
+		Point(int i, int j) : x(i), y(j) {}
+
+	} Point;
+
+	TArray<Point> map;
+	
+	void CreateTile(int row, int col);
 	void GenerateMap();
 	void SpawnUnits();
 
@@ -50,7 +57,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ATile> tileBP;
-	
+
 	UPROPERTY(EditAnywhere)
 	int rows;
 
@@ -65,6 +72,5 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void SpawnTile(int x, int y, int z);
 
 };

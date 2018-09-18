@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TileMap.h"
-#include "Tile.h"
+
 #include "UObject/ConstructorHelpers.h"
 
 #include "Engine/World.h"
-
+#include "Engine/StaticMeshActor.h"
+#include "Engine/StaticMesh.h"
 
 //ctors
 ATileMap::ATileMap() {
@@ -14,7 +15,14 @@ ATileMap::ATileMap() {
 	PrimaryActorTick.bCanEverTick = false;
 
 	mapMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("MapMesh"));
+	SetRootComponent(mapMesh);
 
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			map.Add(Point(i, j));
+		}
+	}
+	
 	rows = 10;
 	cols = 10;
 	tileSize = 100;
@@ -22,7 +30,8 @@ ATileMap::ATileMap() {
 }
 
 //Private Functions
-void ATileMap::CreateTile() {
+void ATileMap::CreateTile(int row, int col) {
+	//https://www.youtube.com/watch?v=dKlMEmVgbvg
 	TArray<FVector> vertices;
 	TArray<int32> triangles;
 	TArray<FVector> normals;
@@ -30,22 +39,18 @@ void ATileMap::CreateTile() {
 	TArray<FColor> vertexColors;
 	TArray<FProcMeshTangent> tangents;
 
-	if (tileBP) {
+	//Add vertecies 
+	FVector origin = (0 + (row * tileSize + tilePadding), 0 + (row * tileSize + tilePadding), 0);
+	vertices.Add(origin);
+	vertices.Add(FVector(origin.X, origin.Y + tileSize, 0));
+	vertices.Add(FVector(origin.X + tileSize, origin.Y, 0));
+	vertices.Add(FVector(origin.X + tileSize, origin.Y + tileSize, 0));
 	
-	}
+
 }
 
 void ATileMap::GenerateMap() {
-	/*for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
-			FVector	location(i * (tileSize + (tilePadding / 2)), j * (tileSize + (tilePadding / 2)), 0);
-			FRotator rotation(0, 0, 0);
-			FActorSpawnParameters spawnInfo;
-			ATile* tile = GetWorld()->SpawnActor<ATile>(tileBP, location, rotation, spawnInfo);
-			
-			map.Add(tile);
-		}
-	}*/
+	//UStaticMesh *tile = tileBP->
 }
 
 void ATileMap::SpawnUnits() {
@@ -67,22 +72,23 @@ void ATileMap::SpawnUnits() {
 // Called when the game starts or when spawned
 void ATileMap::BeginPlay(){
 	Super::BeginPlay();
-	if (tileBP) 
-		GenerateMap();
-	else {
-		if (GEngine) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to generate Tile Map. Please supply tile blueprint in editor"));
-		}
-	}
 	
+	//Procedurally generate a map mesh
+	if (tileBP) {
+		GenerateMap();
+	}
+	else if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
+	}
+
+	//Place units on board.
 	if (unitBP) {
 		SpawnUnits();
 	}
-	else {
-		if (GEngine) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
-		}
+	else if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
 	}
+
 }
 
 //Public Functions
@@ -90,14 +96,6 @@ void ATileMap::BeginPlay(){
 void ATileMap::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
 
-}
-
-void ATileMap::SpawnTile(int x, int y, int z) {
-	FVector	location(x, y, z);
-	FRotator rotation(0, 0, 0);
-	FActorSpawnParameters spawnInfo;
-
-	GetWorld()->SpawnActor<ATile>(location, rotation, spawnInfo);
 }
 
 
