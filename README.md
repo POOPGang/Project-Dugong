@@ -1,5 +1,13 @@
-# **Vision Statement** #
+# **Table of Contents** #
+## I. Vision Statement ##
+## II. [Product/Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit?usp=sharing) ##
+## III. [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit?usp=sharing) ##
+## IV.  Requirements ##
+## V.  Design Documents ##
+## VI. Build Instructions ##
 
+
+# **I. Vision Statement** #
 The **video game** we are looking to create is **for** both new and hardcore fans of turn-based strategy games alike and fans of physical or digital board games **who** have played games in their libraries front-to-back and found themselves totally devoid of any interest in playing the same games for the tenth time. 
 
 The game we create **will lead to** another fantastic addition to video game fans’ libraries to which they can dump all of their hours into and hopefully spark a change in the video game industry, while expanding the developers’ software and video game design knowledge. 
@@ -8,16 +16,30 @@ The game we create **will lead to** another fantastic addition to video game fan
 
 By combining these ideas from various games and forming them into one cohesive package, we can hopefully show that the melding of different mechanics from seemingly different games can yield fun and long-lasting results.
 
-# **Build Instructions** #
+# **II. Product/Sprint Backlog** #
 
-## Prerequisites: ##
-* Visual Studio 2017
+
+# **III. Burndown Chart** #
+
+
+# **IV. Requirements** #
+
+
+# **IV. Design Documents** #
+
+
+# **IV. Build Instructions** #
+
+
+## - Prerequisites: ##
+* [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
   * Ensure that your Visual Studio Installation includes the "Game Development with C++" installer option.
 * Unreal Engine 4.20
 
-## Actual Build Instructions: ##
+## - Actual Build Instructions: ##
 1. Clone repository
 2. Right click on ProjectDugong.uproject and click Generate Visual Studio Project Files
 3. Build the project from Visual Studio
 4. Run the project from Visual Studio or the Unreal Editor
 5. Click Launch Game to compile the game into a standalone execuatble.
+
