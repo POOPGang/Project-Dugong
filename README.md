@@ -26,7 +26,7 @@ By combining these ideas from various games and forming them into one cohesive p
 
 
 # **IV. Design Documents** #
- ## - [UML](https://github.com/POOPGang/Project-Dugong/blob/master/Product%20Management/UML/Project%20Dugong.png) ##
+ ## - [UML Diagram](https://github.com/POOPGang/Project-Dugong/blob/master/Product%20Management/UML/Project%20Dugong.png) ##
 
 
 # **IV. Build Instructions** #
