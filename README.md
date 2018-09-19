@@ -1,3 +1,10 @@
+# ** Team Members** ##
+ * Jonathan
+ * Leehe
+ * Michael
+ * Mycal Hurley
+ * Nic
+
 # **Table of Contents** #
 ## I. Vision Statement ##
 ## II. [Product/Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit?usp=sharing) ##
