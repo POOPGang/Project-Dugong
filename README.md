@@ -36,7 +36,8 @@ By combining these ideas from various games and forming them into one cohesive p
 ## - Prerequisites: ##
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
   * Ensure that your Visual Studio Installation includes the "Game Development with C++" installer option.
-* Unreal Engine 4.20
+* [Unreal Engine 4.20](https://www.unrealengine.com/en-US/download)
+  * In order to install the engine, the Unreal Launcher application must be installed first.
 
 ## - Actual Build Instructions: ##
 1. Clone repository
