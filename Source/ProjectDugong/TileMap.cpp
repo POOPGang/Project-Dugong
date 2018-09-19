@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TileMap.h"
+#include "Types.h"
 
 #include "UObject/ConstructorHelpers.h"
 
@@ -14,12 +15,7 @@ ATileMap::ATileMap() {
 	//You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	//Setup map mesh
-	mapMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("MapMesh"));
-	SetRootComponent(mapMesh);
-	mapMesh->bUseAsyncCooking = true;
-
-	//Default values for tiel map. Overridden by editor settings (if any)
+	//Default values for tile map. Overridden by editor settings (if any)
 	rows = 10;
 	cols = 10;
 	tileSize = 100;
@@ -29,54 +25,13 @@ ATileMap::ATileMap() {
 //Private Functions
 
 //Creates a tileSize x tileSize mesh for each tile in the map.
-void ATileMap::CreateTile(int row, int col, int meshSectionIndex){
+void ATileMap::CreateTile(int row, int col){
+	FVector	location = PointToLocation(row, col);
+	FRotator rotation(0, 0, 0);
+	FActorSpawnParameters spawnInfo;
+	ABaseTile* tile = GetWorld()->SpawnActor<ABaseTile>(baseTileBP, location, rotation, spawnInfo);
 
-	TArray<FVector> vertices;
-	TArray<int32> indices;
-	TArray<FVector> normals;
-	TArray<FVector2D> UV0;
-	TArray<FColor> vertexColors;
-	TArray<FProcMeshTangent> tangents;
-
-	//Add vertecies 
-	FVector origin;
-	origin.X = 0 + (row * (tileSize + tilePadding));
-	origin.Y = 0 + (col * (tileSize + tilePadding));
-	origin.Z = 0;
-
-	vertices.Add(origin);
-	vertices.Add(FVector(origin.X, origin.Y + tileSize, 0));
-	vertices.Add(FVector(origin.X + tileSize, origin.Y, 0));
-	vertices.Add(FVector(origin.X + tileSize, origin.Y + tileSize, 0));
-	
-	//Set triangle Indexes
-	indices.Add(0);
-	indices.Add(1);
-	indices.Add(2);
-	indices.Add(3);
-	indices.Add(2);
-	indices.Add(1);
-
-	//Set UV (Texture) Coordinates
-	UV0.Add(FVector2D(0, 0));
-	UV0.Add(FVector2D(0, 1));
-	UV0.Add(FVector2D(1, 0));
-	UV0.Add(FVector2D(1, 1));
-
-	//Add tile to procedural mesh.
-	mapMesh->CreateMeshSection(meshSectionIndex, vertices, indices, normals, UV0, vertexColors, tangents, true);
-
-}
-
-//Sets material for tiles in map individually
-void ATileMap::SetTileMaterial(int meshSectionIndex) {
-	if (tileMaterial) {
-		mapMesh->SetMaterial(meshSectionIndex, tileMaterial);
-	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Warning: Tile Material not set in editor."));
-	}
-	
+	tiles.Add(tile);
 }
 
 void ATileMap::GenerateMap() {
@@ -89,8 +44,7 @@ void ATileMap::GenerateMap() {
 
 	//Generate tiles
 	for (int i = 0; i < map.Num(); i++) {
-		CreateTile(map[i].x, map[i].y, i);
-		SetTileMaterial(i);
+		CreateTile(map[i].x, map[i].y);
 	}
 }
 
@@ -115,10 +69,15 @@ void ATileMap::BeginPlay(){
 	Super::BeginPlay();
 	
 	//Procedurally generate a map mesh
-	GenerateMap();
+	if (baseTileBP) {
+		GenerateMap();
+	}
+	else if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Tiles in Tile Map. Please supply tile blueprint in editor"));
+	}
 
 	//Place units on board.
-	if (unitBP) {
+	if (baseUnitBP) {
 		SpawnUnits();
 	}
 	else if (GEngine) {
@@ -133,7 +92,15 @@ void ATileMap::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
 
 }
-
+FVector ATileMap::PointToLocation(int x, int y) {
+	return FVector(x * (tileSize + tilePadding), y * (tileSize + tilePadding), 0);
+}
+FVector ATileMap::PointToLocation(Point p) {
+	return FVector(p.x * (tileSize + tilePadding), p.y * (tileSize + tilePadding), 0);
+}
+Point ATileMap::LocationToPoint(FVector location) {
+	return Point(location.X / (tileSize + tilePadding), location.Y / (tileSize + tilePadding));
+}
 
 
 

@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "Types.h"
 #include "BaseUnit.h"
-#include "Tile.h"
+#include "BaseTile.h"
 
 #include "ProceduralMeshComponent.h"
 
@@ -15,27 +15,15 @@ UCLASS()
 class PROJECTDUGONG_API ATileMap : public AActor{
 	GENERATED_BODY()
 	
-
 private: //Private member variables and functions
-	//Simple struct for map points
-	typedef struct Point {
-		int x;
-		int y;
 
-		Point(int i, int j) : x(i), y(j) {}
-
-	} Point;
-
-	//The procedurally generated map mesh.
-	UProceduralMeshComponent* mapMesh;
-	
-	
-	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
 	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
 	TArray<Point> map;
+
+	//The procedurally generated map mesh.
+	TArray<ABaseTile*> tiles;
 	
-	void CreateTile(int row, int col, int meshSectionIndex);
-	void SetTileMaterial(int meshSectionIndex);
+	void CreateTile(int row, int col);
 	void GenerateMap();
 	void SpawnUnits();
 
@@ -49,13 +37,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-
 public:	
 	UPROPERTY(EditAnywhere, Category = Actors)
-	TSubclassOf<ABaseUnit> unitBP;
+	TSubclassOf<ABaseUnit> baseUnitBP;
 	
-	UPROPERTY(EditAnywhere, Category = Materials)
-	UMaterial* tileMaterial;
+	UPROPERTY(EditAnywhere, Category = Actors)
+	TSubclassOf<ABaseTile> baseTileBP;
 
 	UPROPERTY(EditAnywhere)
 	int rows;
@@ -72,4 +59,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	FVector PointToLocation(int x, int y);
+	FVector PointToLocation(Point p);
+	Point LocationToPoint(FVector location);
 };
