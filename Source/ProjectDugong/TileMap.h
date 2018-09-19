@@ -17,15 +17,7 @@ class PROJECTDUGONG_API ATileMap : public AActor{
 	
 
 private: //Private member variables and functions
-	//1D array for 2D map
-	//TArray<ATile*> map;
-
-	//The procedurally generated map mesh.
-	UProceduralMeshComponent* mapMesh;
-	
-	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
-	
-
+	//Simple struct for map points
 	typedef struct Point {
 		int x;
 		int y;
@@ -34,9 +26,16 @@ private: //Private member variables and functions
 
 	} Point;
 
+	//The procedurally generated map mesh.
+	UProceduralMeshComponent* mapMesh;
+	
+	
+	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
+	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
 	TArray<Point> map;
 	
 	void CreateTile(int row, int col, int meshSectionIndex);
+	void SetTileMaterial(int meshSectionIndex);
 	void GenerateMap();
 	void SpawnUnits();
 
@@ -52,9 +51,11 @@ protected:
 
 
 public:	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseUnit> unitBP;
-
+	
+	UPROPERTY(EditAnywhere, Category = Materials)
+	UMaterial* tileMaterial;
 
 	UPROPERTY(EditAnywhere)
 	int rows;

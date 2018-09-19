@@ -14,29 +14,23 @@ ATileMap::ATileMap() {
 	//You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	//Setup map mesh
 	mapMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("MapMesh"));
 	SetRootComponent(mapMesh);
 	mapMesh->bUseAsyncCooking = true;
 
+	//Default values for tiel map. Overridden by editor settings (if any)
 	rows = 10;
 	cols = 10;
 	tileSize = 100;
 	tilePadding = 10;
-
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
-			map.Add(Point(i, j));
-		}
-	}
-	
-
 }
 
 //Private Functions
-void ATileMap::CreateTile(int row, int col, int meshSectionIndex) {
-	//https://www.youtube.com/watch?v=dKlMEmVgbvg
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Position: %d %d "), row, col));
+//Creates a tileSize x tileSize mesh for each tile in the map.
+void ATileMap::CreateTile(int row, int col, int meshSectionIndex){
+
 	TArray<FVector> vertices;
 	TArray<int32> indices;
 	TArray<FVector> normals;
@@ -46,8 +40,8 @@ void ATileMap::CreateTile(int row, int col, int meshSectionIndex) {
 
 	//Add vertecies 
 	FVector origin;
-	origin.X = 0 + (row * tileSize + tilePadding);
-	origin.Y = origin.X;
+	origin.X = 0 + (row * (tileSize + tilePadding));
+	origin.Y = 0 + (col * (tileSize + tilePadding));
 	origin.Z = 0;
 
 	vertices.Add(origin);
@@ -74,12 +68,29 @@ void ATileMap::CreateTile(int row, int col, int meshSectionIndex) {
 
 }
 
-void ATileMap::GenerateMap() {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Generating Map"));
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Size: %d "), map.Num()));
+//Sets material for tiles in map individually
+void ATileMap::SetTileMaterial(int meshSectionIndex) {
+	if (tileMaterial) {
+		mapMesh->SetMaterial(meshSectionIndex, tileMaterial);
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Warning: Tile Material not set in editor."));
+	}
+	
+}
 
+void ATileMap::GenerateMap() {
+	//Fill map with point data
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			map.Add(Point(i, j));
+		}
+	}
+
+	//Generate tiles
 	for (int i = 0; i < map.Num(); i++) {
 		CreateTile(map[i].x, map[i].y, i);
+		SetTileMaterial(i);
 	}
 }
 
