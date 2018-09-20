@@ -21,7 +21,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=1243541607)
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=0)
  * [Design Documents]
- * [Source Code]
+ * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
 
 # **Sprint 2** #
 ## - Artifacts: ##
@@ -30,7 +30,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=1828885041)
  * Requirements
  * Design Documents
- * Source Code
+ * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
  * Test Cases
  
  
@@ -41,7 +41,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=16660030)
  * Requirements
  * Design Documents
- * Source Code
+ * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
  * Test Cases
 
 # **Sprint 4** #
@@ -51,7 +51,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=170721525)
  * Requirements
  * Design Documents
- * Source Code
+ * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
  * Test Cases
 
 
