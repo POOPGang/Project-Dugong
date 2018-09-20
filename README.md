@@ -1,4 +1,4 @@
-# ** Group 9 Team Members** ##
+# **Group 9 Team Members** ##
  * Michael Braddy
  * Mycal Hurley
  * Nicolas LaCognata
