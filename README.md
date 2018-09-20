@@ -14,20 +14,6 @@ The game we create **will lead to** another fantastic addition to video game fan
 
 By combining these ideas from various games and forming them into one cohesive package, we can hopefully show that the melding of different mechanics from seemingly different games can yield fun and long-lasting results.
 
-# **Build Instructions** #
-
-## - Prerequisites: ##
-* [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
-  * Ensure that your Visual Studio Installation includes the "Game Development with C++" installer option.
-* [Unreal Engine 4.20](https://www.unrealengine.com/en-US/download)
-  * In order to install the engine, the Unreal Launcher application must be installed first.
-
-## - Actual Build Instructions: ##
-1. Clone repository
-2. Right click on ProjectDugong.uproject and click Generate Visual Studio Project Files
-3. Build the project from Visual Studio
-4. Run the project from Visual Studio or the Unreal Editor
-5. Click Launch Game to compile the game into a standalone execuatble.
 
 # **Sprint 1** #
 ## Artifacts: ##
@@ -70,3 +56,19 @@ By combining these ideas from various games and forming them into one cohesive p
  * Design Documents
  * Source Code
  * Test Cases
+
+
+# **Build Instructions** #
+
+## - Prerequisites: ##
+* [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
+  * Ensure that your Visual Studio Installation includes the "Game Development with C++" installer option.
+* [Unreal Engine 4.20](https://www.unrealengine.com/en-US/download)
+  * In order to install the engine, the Unreal Launcher application must be installed first.
+
+## - Actual Build Instructions: ##
+1. Clone repository
+2. Right click on ProjectDugong.uproject and click Generate Visual Studio Project Files
+3. Build the project from Visual Studio
+4. Run the project from Visual Studio or the Unreal Editor
+5. Click Launch Game to compile the game into a standalone execuatble.
