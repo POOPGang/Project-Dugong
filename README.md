@@ -1,9 +1,9 @@
-# **Team Members** ##
- * Jonathan
- * Leehe
- * Michael
+# ** Group 9 Team Members** ##
+ * Michael Braddy
  * Mycal Hurley
- * Nic
+ * Nicolas LaCognata
+ * Leehe Mahalal
+ * Jonathon Towne
 
 # **Vision Statement** #
 The **video game** we are looking to create is **for** both new and hardcore fans of turn-based strategy games alike and fans of physical or digital board games **who** have played games in their libraries front-to-back and found themselves totally devoid of any interest in playing the same games for the tenth time. 
