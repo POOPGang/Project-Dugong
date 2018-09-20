@@ -16,18 +16,15 @@ By combining these ideas from various games and forming them into one cohesive p
 
 
 # **Sprint 1** #
-## Artifacts: ##
+## - Artifacts: ##
  * [Product Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=0)
  * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=1243541607)
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=0)
- * Requirements
- * Design Documents
- * Source Code
- * Test Cases
-
+ * [Design Documents]
+ * [Source Code]
 
 # **Sprint 2** #
-## Artifacts: ##
+## - Artifacts: ##
  * [Product Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=0)
  * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=1068526948)
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=1828885041)
@@ -38,7 +35,7 @@ By combining these ideas from various games and forming them into one cohesive p
  
  
 # **Sprint 3** #
-## Artifacts: ##
+## - Artifacts: ##
  * [Product Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=0)
  * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=1441655908)
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=16660030)
@@ -48,7 +45,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * Test Cases
 
 # **Sprint 4** #
-## Artifacts: ##
+## - Artifacts: ##
  * [Product Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=0)
  * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=1578825482)
  * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=170721525)
