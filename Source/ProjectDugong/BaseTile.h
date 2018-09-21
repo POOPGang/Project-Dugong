@@ -20,6 +20,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+
+	bool isOccupied;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

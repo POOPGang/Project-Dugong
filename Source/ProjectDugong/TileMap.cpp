@@ -49,22 +49,11 @@ void ATileMap::GenerateMap() {
 }
 
 void ATileMap::SpawnUnits() {
-	//ATile* tile = map[0];
-	//
-	////Place unit at tile location + 83 in the Z direction (83 is unit height).
-	//FVector location = tile->GetActorLocation();
-	//location.Z += 83;
-	//
-	//FRotator rotation = tile->GetActorRotation();
-	//FActorSpawnParameters spawnInfo;
-	//
-	//map[0]->actorOnTile = GetWorld()->SpawnActor<ABaseUnit>(unitBP, location, rotation, spawnInfo);
-
 	FVector location = PointToLocation(0, 0);
-	location.Z += 83;
-	
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
+
+	location.Z += 83;
 
 	ABaseUnit* unit = GetWorld()->SpawnActor<ABaseUnit>(baseUnitBP, location, rotation, spawnInfo);
 }
