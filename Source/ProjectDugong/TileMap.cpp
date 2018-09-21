@@ -59,6 +59,14 @@ void ATileMap::SpawnUnits() {
 	//FActorSpawnParameters spawnInfo;
 	//
 	//map[0]->actorOnTile = GetWorld()->SpawnActor<ABaseUnit>(unitBP, location, rotation, spawnInfo);
+
+	FVector location = PointToLocation(0, 0);
+	location.Z += 83;
+	
+	FRotator rotation(0, 0, 0);
+	FActorSpawnParameters spawnInfo;
+
+	ABaseUnit* unit = GetWorld()->SpawnActor<ABaseUnit>(baseUnitBP, location, rotation, spawnInfo);
 }
 
 
