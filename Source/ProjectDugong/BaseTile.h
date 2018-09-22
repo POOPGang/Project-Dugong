@@ -2,34 +2,30 @@
 
 #pragma once
 
-#include "BaseUnit.h"
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Tile.generated.h"
+#include "BaseTile.generated.h"
 
 UCLASS()
-class PROJECTDUGONG_API ATile : public AActor
+class PROJECTDUGONG_API ABaseTile : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ATile();
-	ATile(FVector location, FRotator rotation);
-	// Called when placed in editor
-	virtual void OnConstruction(const FTransform& Transform) override;
+	ABaseTile();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
-	bool isOccupied;
 public:	
+
+	bool isOccupied;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 	
-	ABaseUnit* actorOnTile;
 	
 };
