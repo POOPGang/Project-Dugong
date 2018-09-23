@@ -3,5 +3,6 @@
 #include "ProjectDugongGameModeBase.h"
 
 
-
+AProjectDugongGameModeBase::AProjectDugongGameModeBase() {
+}
 

@@ -13,8 +13,8 @@ UCLASS()
 class PROJECTDUGONG_API AProjectDugongGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
-	
+
+	AProjectDugongGameModeBase();
 	
 	
 };
