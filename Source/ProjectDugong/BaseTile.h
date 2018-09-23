@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+
+class ABaseUnit;
+
 #include "Types.h"
 
 #include "CoreMinimal.h"
@@ -18,11 +21,14 @@ public:
 
 	// Sets default values for this actor's properties
 	ABaseTile();
-	void Init(int tileSize, int tilePadding);
+	void Init(Point p, int tileSize, int tilePadding, int index);
 
 private:
+	Point gridLocation;
 	int tileSize;
 	int tilePadding;
+	int index;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -37,5 +43,8 @@ public:
 	UFUNCTION()
 	void CustomOnBeginMouseOver(UPrimitiveComponent* TouchedComponent);
 	
-	
+	void SwapMaterial(UMaterial* newMaterial);
+
+	bool InMovementRange(ABaseUnit* unit);
+	bool InSprintRange(ABaseUnit* unit);
 };

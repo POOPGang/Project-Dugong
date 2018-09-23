@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TileMap.h"
-#include "Types.h"
+#include "BaseUnit.h"
+#include "BaseTile.h"
+#include "MasterGameInstance.h"
 
 #include "UObject/ConstructorHelpers.h"
 
@@ -26,11 +28,11 @@ ATileMap::ATileMap() {
 
 //Creates a tileSize x tileSize mesh for each tile in the map.
 void ATileMap::CreateTile(int row, int col){
-	FVector	location = PointToLocation(row, col);
+	FVector	location = PointToLocation(row, col, tileSize, tilePadding);
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
 	ABaseTile* tile = GetWorld()->SpawnActor<ABaseTile>(baseTileBP, location, rotation, spawnInfo);
-
+	tile->Init(Point(row, col), tileSize, tilePadding, tiles.Num());
 	tiles.Add(tile);
 }
 
@@ -49,7 +51,7 @@ void ATileMap::GenerateMap() {
 }
 
 void ATileMap::SpawnUnits() {
-	FVector location = PointToLocation(0, 0);
+	FVector location = PointToLocation(rows/2, cols/2, tileSize, tilePadding);
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
 
@@ -81,6 +83,11 @@ void ATileMap::BeginPlay(){
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
 	}
 
+	UMasterGameInstance* instance = Cast<UMasterGameInstance>(GetGameInstance());
+	if (instance) {
+		instance->SetUnderworldMap(this);
+	}
+
 }
 
 //Public Functions
@@ -89,15 +96,29 @@ void ATileMap::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
 
 }
-FVector ATileMap::PointToLocation(int x, int y) {
-	return FVector(x * (tileSize + tilePadding), y * (tileSize + tilePadding), 0);
+
+void ATileMap::ClearMovementTiles() {
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Clearing Move Tiles"));
+	}
+	for (ABaseTile* tile : tiles) {
+		tile->SwapMaterial(basicMaterial);
+	}
 }
-FVector ATileMap::PointToLocation(Point p) {
-	return FVector(p.x * (tileSize + tilePadding), p.y * (tileSize + tilePadding), 0);
+void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Setting Move Tiles"));
+	}
+	for (ABaseTile* tile : tiles) {
+		if (tile->InMovementRange(unit)) {
+			tile->SwapMaterial(firstMoveMaterial);
+		}
+		else if (tile->InSprintRange(unit)) {
+			tile->SwapMaterial(secondMoveMaterial);
+		}
+	}
 }
-Point ATileMap::LocationToPoint(FVector location) {
-	return Point(location.X / (tileSize + tilePadding), location.Y / (tileSize + tilePadding));
-}
+
 
 
 

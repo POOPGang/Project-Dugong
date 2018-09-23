@@ -1,23 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MasterGameInstance.h"
+#include "UnderworldGameState.h"
 #include "TileMap.h"
 #include "BaseUnit.h"
 #include "BaseTile.h"
 
-ATileMap* UMasterGameInstance::GetUnderworldMap() { 
+
+ATileMap* AUnderworldGameState::GetUnderworldMap() {
 	return underworldMap;
 }
 
-void UMasterGameInstance::SetUnderworldMap(ATileMap* map) {
+void AUnderworldGameState::SetUnderworldMap(ATileMap* map) {
 	underworldMap = map;
 }
 
-ABaseUnit* UMasterGameInstance::GetActiveUnit() {
+ABaseUnit* AUnderworldGameState::GetActiveUnit() {
 	return activeUnit;
 }
 
-void UMasterGameInstance::SetActiveUnit(ABaseUnit* unit) {
+void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Setting active unit")));
 	}
@@ -29,13 +30,14 @@ void UMasterGameInstance::SetActiveUnit(ABaseUnit* unit) {
 		underworldMap->ClearMovementTiles();
 		return;
 	}
-	
+
 	activeUnit = unit;
 
 	underworldMap->DisplayMovementTiles(activeUnit);
 
 }
-void UMasterGameInstance::ClearActiveUnit() {
+void AUnderworldGameState::ClearActiveUnit() {
 	activeUnit = nullptr;
 	underworldMap->ClearMovementTiles();
 }
+

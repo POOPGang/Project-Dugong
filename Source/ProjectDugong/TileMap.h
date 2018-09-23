@@ -2,8 +2,9 @@
 
 #pragma once
 #include "Types.h"
-#include "BaseUnit.h"
-#include "BaseTile.h"
+class ABaseUnit;
+class ABaseTile;
+
 
 #include "ProceduralMeshComponent.h"
 
@@ -32,7 +33,6 @@ public:	//ctors
 	// Sets default values for this actor's properties
 	ATileMap();
 
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -44,22 +44,33 @@ public:
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseTile> baseTileBP;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Materials)
+	UMaterial* basicMaterial;
+
+	UPROPERTY(EditAnywhere, Category = Materials)
+	UMaterial* firstMoveMaterial;
+	
+	UPROPERTY(EditAnywhere, Category = Materials)
+	UMaterial* secondMoveMaterial;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
 	int rows;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Settings)
 	int cols;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Settings)
 	int tileSize; 
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Settings)
 	int tilePadding;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	FVector PointToLocation(int x, int y);
-	FVector PointToLocation(Point p);
-	Point LocationToPoint(FVector location);
+	void ClearMovementTiles();
+
+	UFUNCTION(BlueprintCallable)
+	void DisplayMovementTiles(ABaseUnit* unit);
+
 };
