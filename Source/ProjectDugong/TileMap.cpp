@@ -3,7 +3,7 @@
 #include "TileMap.h"
 #include "BaseUnit.h"
 #include "BaseTile.h"
-#include "MasterGameInstance.h"
+#include "UnderworldGameState.h"
 
 #include "UObject/ConstructorHelpers.h"
 
@@ -83,9 +83,9 @@ void ATileMap::BeginPlay(){
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
 	}
 
-	UMasterGameInstance* instance = Cast<UMasterGameInstance>(GetGameInstance());
-	if (instance) {
-		instance->SetUnderworldMap(this);
+	AUnderworldGameState* gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
+	if (gameState) {
+		gameState->SetUnderworldMap(this);
 	}
 
 }

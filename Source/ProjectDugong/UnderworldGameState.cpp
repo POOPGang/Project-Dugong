@@ -33,11 +33,26 @@ void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 
 	activeUnit = unit;
 
-	underworldMap->DisplayMovementTiles(activeUnit);
+	if (underworldMap) {
+		underworldMap->DisplayMovementTiles(activeUnit);
+	}
+	else {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("No underworld map set.")));
+		}
+	}
 
 }
 void AUnderworldGameState::ClearActiveUnit() {
-	activeUnit = nullptr;
-	underworldMap->ClearMovementTiles();
+	/*activeUnit = nullptr;
+	
+	if (underworldMap) {
+		underworldMap->ClearMovementTiles();
+	}
+	else {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("No underworld map set.")));
+		}
+	}*/
 }
 

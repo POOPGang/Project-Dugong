@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BaseUnit.h"
-#include "MasterGameInstance.h"
+#include "UnderworldGameState.h"
 #include "UObject/ConstructorHelpers.h"
 
 // Sets default values
@@ -46,9 +46,9 @@ void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Unit Clicked")));
 	}
 	
-	UMasterGameInstance* instance = Cast<UMasterGameInstance>(GetGameInstance());
-	if (instance) {
-		instance->SetActiveUnit(this);
+	AUnderworldGameState* gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
+	if (gameState) {
+		gameState->SetActiveUnit(this);
 	}
 	else if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Failed to aquire game instance")));

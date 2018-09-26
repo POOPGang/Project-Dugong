@@ -18,22 +18,5 @@ class PROJECTDUGONG_API UMasterGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 	
-private:
-	ATileMap* underworldMap;
-	ABaseUnit* activeUnit;
-	ABaseTile* activeTile;
-
-public:
-	ATileMap* GetUnderworldMap();
-	void SetUnderworldMap(ATileMap* map);
-
-	UFUNCTION(BlueprintCallable)
-	ABaseUnit* GetActiveUnit();
-
-	UFUNCTION(BlueprintCallable)
-	void SetActiveUnit(ABaseUnit* unit);
-
-	UFUNCTION(BlueprintCallable)
-	void ClearActiveUnit();
 	
 };
