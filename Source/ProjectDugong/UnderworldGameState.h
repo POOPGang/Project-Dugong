@@ -21,11 +21,12 @@ class PROJECTDUGONG_API AUnderworldGameState : public AGameState
 private:
 	ATileMap* underworldMap;
 	
-	bool hasActiveUnit;
 	ABaseUnit* activeUnit;
 
-	bool hasActiveTile;
 	ABaseTile* activeTile;
+
+protected:
+	virtual void BeginPlay() override;
 
 public:
 	ATileMap* GetUnderworldMap();

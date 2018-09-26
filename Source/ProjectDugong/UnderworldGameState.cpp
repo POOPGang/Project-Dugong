@@ -5,6 +5,9 @@
 #include "BaseUnit.h"
 #include "BaseTile.h"
 
+void AUnderworldGameState::BeginPlay() {
+	Super::BeginPlay();
+}
 
 ATileMap* AUnderworldGameState::GetUnderworldMap() {
 	return underworldMap;
@@ -22,6 +25,11 @@ void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Setting active unit")));
 	}
+	
+	if (underworldMap == nullptr)
+		return;
+
+
 	//If there is already an active unit, clear the tile highlighting before re-applying.
 	if (activeUnit != nullptr) {
 		underworldMap->ClearMovementTiles();
@@ -33,18 +41,11 @@ void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 
 	activeUnit = unit;
 
-	if (underworldMap) {
-		underworldMap->DisplayMovementTiles(activeUnit);
-	}
-	else {
-		if (GEngine) {
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("No underworld map set.")));
-		}
-	}
+	underworldMap->DisplayMovementTiles(activeUnit);
 
 }
 void AUnderworldGameState::ClearActiveUnit() {
-	/*activeUnit = nullptr;
+	activeUnit = nullptr;
 	
 	if (underworldMap) {
 		underworldMap->ClearMovementTiles();
@@ -53,6 +54,6 @@ void AUnderworldGameState::ClearActiveUnit() {
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("No underworld map set.")));
 		}
-	}*/
+	}
 }
 

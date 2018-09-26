@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BaseTile.h"
 #include "BaseUnit.h"
+
+#include "Components/StaticMeshComponent.h"
+
 #include "GenericPlatformMath.h"
 
 // Sets default values
@@ -9,8 +12,10 @@ ABaseTile::ABaseTile(){
 	PrimaryActorTick.bCanEverTick = true;
 
 	tileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Tile Mesh"));
-	tileMeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
-	tileMeshComponent->OnBeginCursorOver.AddDynamic(this, &ABaseTile::CustomOnBeginMouseOver);
+	//tileMeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+	//tileMeshComponent->OnBeginCursorOver.AddDynamic(this, &ABaseTile::CustomOnBeginMouseOver);
+
+	
 }
 void ABaseTile::Init(Point p, int tileSize, int tilePadding, int index) {
 	gridLocation = p;
