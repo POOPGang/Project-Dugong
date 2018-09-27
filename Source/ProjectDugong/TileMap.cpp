@@ -120,12 +120,22 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Setting Move Tiles"));
 	}
-	for (ABaseTile* tile : tiles) {
+	auto moveCosts = unit->GetMoveCosts();
+
+	/*for (ABaseTile* tile : tiles) {
 		if (tile->InMovementRange(unit)) {
 			tile->SwapMaterial(firstMoveMaterial);
 		}
 		else if (tile->InSprintRange(unit)) {
 			tile->SwapMaterial(secondMoveMaterial);
+		}
+	}*/
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("MoveCost 0 0: %d", moveCosts[0][0])));
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			
+			if(moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0)
+				this->operator()(i, j)->SwapMaterial(firstMoveMaterial);
 		}
 	}
 }

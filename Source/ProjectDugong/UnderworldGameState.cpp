@@ -42,6 +42,7 @@ void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 	}
 	
 	activeUnit = unit;
+	activeUnit->PopulateMoveCosts(underworldMap);
 	underworldMap->DisplayMovementTiles(activeUnit);
 
 }

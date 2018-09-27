@@ -56,6 +56,7 @@ public:
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 
 	void PopulateMoveCosts(ATileMap* map);
+	TArray<TArray<int>> GetMoveCosts();
 	int GetMobility();
 
 };

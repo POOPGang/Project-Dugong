@@ -65,17 +65,24 @@ void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 	gameState->SetActiveUnit(this);
 }
 
-void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
-	TQueue<Point> q;
-	TArray<TArray<bool>> visited;
-	for (int i = 0; i < map->rows; i++) {
-		TArray<bool> temp;
-		temp.Init(false, map->cols);
-		visited.Add(temp);
-	}
-	q.Enqueue(gridLocation);
-	moveCosts[gridLocation.x][gridLocation.y] = 0;
 
+void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Calculating move cost for unit")));
+	}
+
+	if (map->operator()(-1, -1) == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Pass")));
+	}
+	if (map->operator()(0, 0) == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Fail")));
+	}
+	moveCosts[0][0] = 1;
+
+}
+
+TArray<TArray<int>> ABaseUnit::GetMoveCosts() {
+	return moveCosts;
 }
 
 int ABaseUnit::GetMobility() {
