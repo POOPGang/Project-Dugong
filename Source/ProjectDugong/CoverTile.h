@@ -3,16 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameMode.h"
-#include "UnderworldGameMode.generated.h"
+#include "BaseTile.h"
+#include "CoverTile.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJECTDUGONG_API AUnderworldGameMode : public AGameMode
+class PROJECTDUGONG_API ACoverTile : public ABaseTile
 {
 	GENERATED_BODY()
-	
-	
+
+
 };

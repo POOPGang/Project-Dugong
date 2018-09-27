@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "TileMap.h"
 #include "BaseTile.h"
 #include "BaseUnit.h"
+#include "UnderworldGameState.h"
 
 #include "Components/StaticMeshComponent.h"
 
@@ -17,15 +19,23 @@ ABaseTile::ABaseTile(){
 
 	
 }
-void ABaseTile::Init(Point p, int tileSize, int tilePadding, int index) {
+void ABaseTile::Init(Point p, int tileSize, int tilePadding, int index, bool isOccupied) {
 	gridLocation = p;
 	this->tileSize = tileSize;
 	this->tilePadding = tilePadding;
 	this->index = index;
+	this->isOccupied = isOccupied;
 }
 // Called when the game starts or when spawned
 void ABaseTile::BeginPlay(){
 	Super::BeginPlay();
+
+	gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
+	if (gameState == nullptr) {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Base Unit failed to aquire game state")));
+		}
+	}
 	
 }
 
@@ -51,7 +61,7 @@ void ABaseTile::SwapMaterial(UMaterial* newMaterial) {
 }
 
 bool ABaseTile::InMovementRange(ABaseUnit* unit) {
-	Point unitLocation = LocationToPoint(unit->GetActorLocation(), tileSize, tilePadding);
+	Point unitLocation = gameState->GetUnderworldMap()->LocationToPoint(unit->GetActorLocation());
 	
 	int deltaX = unitLocation.x - gridLocation.x;
 	int deltaY = unitLocation.y - gridLocation.y;
@@ -60,7 +70,7 @@ bool ABaseTile::InMovementRange(ABaseUnit* unit) {
 	return (distance <= unit->GetMobility()) ? true : false;
 }
 bool ABaseTile::InSprintRange(ABaseUnit* unit) {
-	Point unitLocation = LocationToPoint(unit->GetActorLocation(), tileSize, tilePadding);
+	Point unitLocation = gameState->GetUnderworldMap()->LocationToPoint(unit->GetActorLocation());
 
 	int deltaX = unitLocation.x - gridLocation.x;
 	int deltaY = unitLocation.y - gridLocation.y;

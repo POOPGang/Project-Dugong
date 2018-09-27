@@ -1,8 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BaseUnit.h"
+#include "TileMap.h"
+#include "Types.h"
+
 #include "UnderworldGameState.h"
+
 #include "UObject/ConstructorHelpers.h"
+#include "Queue.h"
 
 // Sets default values
 ABaseUnit::ABaseUnit(){
@@ -16,7 +21,6 @@ ABaseUnit::ABaseUnit(){
 	aim = 65;
 	ap = 2;
 	
-	
 }
 void ABaseUnit::OnConstruction(const FTransform& Transform) {
 	Super::OnConstruction(Transform);
@@ -26,7 +30,16 @@ void ABaseUnit::OnConstruction(const FTransform& Transform) {
 // Called when the game starts or when spawned
 void ABaseUnit::BeginPlay(){
 	Super::BeginPlay();
-	
+
+	gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
+	if (gameState  == nullptr) {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Base Unit failed to aquire game state")));
+		}
+		return;
+	}
+
+	gridLocation = gameState->GetUnderworldMap()->LocationToPoint(this->GetActorLocation());
 }
 
 // Called every frame
@@ -42,18 +55,22 @@ void ABaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Unit Clicked")));
-	}
-	
-	AUnderworldGameState* gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
-	if (gameState) {
-		gameState->SetActiveUnit(this);
-	}
-	else if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Failed to aquire game instance")));
-	}
+	gameState->SetActiveUnit(this);
 }
+
+void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
+	TQueue<Point> q;
+	TArray<TArray<bool>> visited;
+	for (int i = 0; i < map->rows; i++) {
+		TArray<bool> temp;
+		temp.Init(false, map->cols);
+		visited.Add(temp);
+	}
+	q.Enqueue(gridLocation);
+	moveCosts[gridLocation.x][gridLocation.y] = 0;
+
+}
+
 int ABaseUnit::GetMobility() {
 	return mobility;
 }

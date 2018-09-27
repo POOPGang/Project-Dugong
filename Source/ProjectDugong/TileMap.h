@@ -2,6 +2,7 @@
 
 #pragma once
 #include "Types.h"
+class AUnderworldGameState;
 class ABaseUnit;
 class ABaseTile;
 
@@ -17,10 +18,7 @@ class PROJECTDUGONG_API ATileMap : public AActor{
 	GENERATED_BODY()
 	
 private: //Private member variables and functions
-
-	//2D Map of integers to represent tiles. Each tile "location" is the bottom left corner of the square
-	TArray<Point> map;
-
+	
 	//The procedurally generated map mesh.
 	TArray<ABaseTile*> tiles;
 	
@@ -33,7 +31,18 @@ public:	//ctors
 	// Sets default values for this actor's properties
 	ATileMap();
 
+	//Operator overload to access elements of 1D array with 2D indicies
+	ABaseTile* operator() (int row, int col) {
+		//Check bounds
+		if (row < 0 || row >= rows || col < 0 || col >= cols) {
+			return nullptr;
+		}
+
+		return tiles[(row * cols) + col];
+	}
+
 protected:
+	AUnderworldGameState* gameState;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -67,6 +76,10 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	FVector PointToLocation(int x, int y); 
+	FVector PointToLocation(Point p); 
+	Point LocationToPoint(FVector location); 
 
 	void ClearMovementTiles();
 

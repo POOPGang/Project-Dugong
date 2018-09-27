@@ -2,6 +2,11 @@
 
 #pragma once
 
+class AUnderworldGameState;
+class ATileMap;
+
+#include "Types.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "BaseUnit.generated.h"
@@ -22,7 +27,10 @@ protected:
 	virtual void BeginPlay() override;
 
 
-private:
+protected:
+	AUnderworldGameState* gameState;
+	Point gridLocation;
+
 	UPROPERTY(VisibleAnywhere)
 	FString name;
 	UPROPERTY(VisibleAnywhere)
@@ -33,6 +41,8 @@ private:
 	int aim;
 	UPROPERTY(VisibleAnywhere)
 	int ap;
+
+	TArray<TArray<int>> moveCosts;
 
 
 public:	
@@ -45,5 +55,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 
+	void PopulateMoveCosts(ATileMap* map);
 	int GetMobility();
+
 };
