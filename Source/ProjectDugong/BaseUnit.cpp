@@ -39,6 +39,13 @@ void ABaseUnit::BeginPlay(){
 		return;
 	}
 
+	//Init movement cost array to -1 for later pathfinding
+	for (int i = 0; i < gameState->GetUnderworldMap()->rows; i++) {
+		TArray<int> temp;
+		temp.Init(-1, gameState->GetUnderworldMap()->cols);
+		moveCosts.Add(temp);
+	}
+
 	gridLocation = gameState->GetUnderworldMap()->LocationToPoint(this->GetActorLocation());
 }
 
