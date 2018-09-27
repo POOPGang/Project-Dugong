@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BaseUnit.h"
+
 #include "TileMap.h"
 #include "Types.h"
-
 #include "UnderworldGameState.h"
 
 #include "UObject/ConstructorHelpers.h"
