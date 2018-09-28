@@ -2,8 +2,9 @@
 
 #include "BaseUnit.h"
 
-#include "TileMap.h"
 #include "Types.h"
+#include "TileMap.h"
+#include "BaseTile.h"
 #include "UnderworldGameState.h"
 
 #include "UObject/ConstructorHelpers.h"
@@ -41,7 +42,7 @@ void ABaseUnit::BeginPlay(){
 
 	//Init movement cost array to -1 for later pathfinding
 	for (int i = 0; i < gameState->GetUnderworldMap()->rows; i++) {
-		TArray<int> temp;
+		TArray<float> temp;
 		temp.Init(-1, gameState->GetUnderworldMap()->cols);
 		moveCosts.Add(temp);
 	}
@@ -65,23 +66,67 @@ void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 	gameState->SetActiveUnit(this);
 }
 
+int CalcCost(Point curr, Point target) {
+	int deltaX = curr.x - target.x;
+	int deltaY = curr.y - target.y;
+	
+	return (deltaX != 0 && deltaY != 0) ? 1.5 : 1;
+}
 
 void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Calculating move cost for unit")));
 	}
 
-	if (map->operator()(-1, -1) == nullptr) {
+	//Tests for TileMap Operator overload
+	/*if (map->operator()(-1, -1) == nullptr) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Pass")));
 	}
-	if (map->operator()(0, 0) == nullptr) {
+	if (map->operator()(map->rows-1, map->cols-1) == nullptr) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Fail")));
-	}
-	moveCosts[0][0] = 1;
+	}*/
 
+	Point currLoc(gridLocation);
+	TQueue<Point> q;
+	TArray<TArray<bool>> visited;
+
+	//Init visitedt array to false for searching
+	for (int i = 0; i < map->rows; i++) {
+		TArray<bool> temp;
+		temp.Init(false, gameState->GetUnderworldMap()->cols);
+		visited.Add(temp);
+	}
+
+	q.Enqueue(currLoc);
+	moveCosts[currLoc.x][currLoc.y] = 0;
+	visited[currLoc.x][currLoc.y] = true;
+
+	//This loop performs a breadth first search through the tile map to create a movement cost array for use in move calculations.
+	while (!q.IsEmpty()) {		
+		q.Peek(currLoc);
+
+		//Add valid neighbors
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				ABaseTile* targetTile = map->operator()(currLoc.x + i, currLoc.y + j);
+				
+				if (targetTile) { //If the neighbor tile is valid
+					Point targetLoc(targetTile->GetGridLocation());
+
+					if (!targetTile->isOccupied && !visited[targetLoc.x][targetLoc.y]) { //And it's not occupied and hasn't been visited
+						q.Enqueue(targetTile->GetGridLocation()); //Add it to the search queue
+						visited[targetLoc.x][targetLoc.y] = true; //Mark it as visited for future loops
+						moveCosts[targetLoc.x][targetLoc.y] = moveCosts[currLoc.x][currLoc.y] + CalcCost(currLoc, targetLoc); //And update it's cost
+					}
+				}
+			}
+		}
+		//Remove Curr location
+		q.Pop();
+	}
 }
 
-TArray<TArray<int>> ABaseUnit::GetMoveCosts() {
+TArray<TArray<float>> ABaseUnit::GetMoveCosts() {
 	return moveCosts;
 }
 

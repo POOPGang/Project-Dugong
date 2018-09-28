@@ -120,6 +120,7 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Setting Move Tiles"));
 	}
+
 	auto moveCosts = unit->GetMoveCosts();
 
 	/*for (ABaseTile* tile : tiles) {
@@ -136,6 +137,8 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 			
 			if(moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0)
 				this->operator()(i, j)->SwapMaterial(firstMoveMaterial);
+			else if(moveCosts[i][j] <= unit->GetMobility() * 2 && moveCosts[i][j] > 0)
+				this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
 		}
 	}
 }

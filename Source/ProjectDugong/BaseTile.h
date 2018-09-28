@@ -49,6 +49,8 @@ public:
 	
 	void SwapMaterial(UMaterial* newMaterial);
 
+	Point GetGridLocation();
+
 	bool InMovementRange(ABaseUnit* unit);
 	bool InSprintRange(ABaseUnit* unit);
 };

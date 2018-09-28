@@ -42,7 +42,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	int ap;
 
-	TArray<TArray<int>> moveCosts;
+	TArray<TArray<float>> moveCosts;
 
 
 public:	
@@ -56,7 +56,7 @@ public:
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 
 	void PopulateMoveCosts(ATileMap* map);
-	TArray<TArray<int>> GetMoveCosts();
+	TArray<TArray<float>> GetMoveCosts();
 	int GetMobility();
 
 };

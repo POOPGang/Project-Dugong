@@ -62,6 +62,10 @@ void ABaseTile::SwapMaterial(UMaterial* newMaterial) {
 	}
 }
 
+Point ABaseTile::GetGridLocation() {
+	return gridLocation;
+}
+
 bool ABaseTile::InMovementRange(ABaseUnit* unit) {
 	Point unitLocation = gameState->GetUnderworldMap()->LocationToPoint(unit->GetActorLocation());
 	
