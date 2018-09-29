@@ -25,7 +25,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	void UseActionPoint();
 
 protected:
 	AUnderworldGameState* gameState;
@@ -34,13 +34,19 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	FString name;
 	UPROPERTY(VisibleAnywhere)
+	int maxHP;
+	UPROPERTY(VisibleAnywhere)
 	int hp;
 	UPROPERTY(VisibleAnywhere)
 	int mobility;
 	UPROPERTY(VisibleAnywhere)
 	int aim;
 	UPROPERTY(VisibleAnywhere)
+	int maxAP;
+	UPROPERTY(VisibleAnywhere)
 	int ap;
+	UPROPERTY(VisibleAnywhere)
+	bool isMoving;
 
 	TArray<TArray<float>> moveCosts;
 
@@ -54,9 +60,22 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
-
 	void PopulateMoveCosts(ATileMap* map);
+	
+
 	TArray<TArray<float>> GetMoveCosts();
 	int GetMobility();
 
+	UFUNCTION(BlueprintCallable)
+	int GetActionPoints();
+
+	UFUNCTION(BlueprintCallable) 
+	bool GetIsMoving();
+
+	void RefreshActionPoints();
+
+	UFUNCTION(BlueprintCallable)
+	bool StartMoving(ABaseTile* target);
+	UFUNCTION(BlueprintCallable)
+	void StopMoving();
 };

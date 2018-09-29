@@ -46,6 +46,19 @@ void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 	underworldMap->DisplayMovementTiles(activeUnit);
 
 }
+
+ABaseTile* AUnderworldGameState::GetActiveTile() {
+	return activeTile;
+}
+
+void AUnderworldGameState::SetActiveTile(ABaseTile* tile) {
+	this->activeTile = tile;
+}
+
+void AUnderworldGameState::ClearActiveTile() {
+	this->activeTile = nullptr;
+}
+
 void AUnderworldGameState::ClearActiveUnit() {
 	if (activeUnit == nullptr)
 		return;

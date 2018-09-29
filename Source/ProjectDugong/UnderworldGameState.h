@@ -40,6 +40,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ClearActiveUnit();
+	
+	UFUNCTION(BlueprintCallable)
+	ABaseTile* GetActiveTile();
+
+	UFUNCTION(BlueprintCallable)
+	void SetActiveTile(ABaseTile* tile);
+
+	UFUNCTION(BlueprintCallable)
+	void ClearActiveTile();
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleTurn();

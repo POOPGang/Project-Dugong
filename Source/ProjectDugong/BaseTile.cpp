@@ -7,7 +7,6 @@
 #include "UnderworldGameState.h"
 
 #include "Components/StaticMeshComponent.h"
-
 #include "GenericPlatformMath.h"
 
 // Sets default values
@@ -47,7 +46,22 @@ void ABaseTile::Tick(float DeltaTime){
 
 }
 
-UFUNCTION()
+void ABaseTile::TileOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Tile right clicked")));
+	}
+	if (gameState == nullptr) {
+		return;
+	}
+		
+	if (gameState->GetActiveUnit() == nullptr) {
+		return;
+	}
+
+	gameState->SetActiveTile(this);
+
+}
+
 void ABaseTile::CustomOnBeginMouseOver(UPrimitiveComponent* TouchedComponent) {
 
 }
@@ -64,23 +78,4 @@ void ABaseTile::SwapMaterial(UMaterial* newMaterial) {
 
 Point ABaseTile::GetGridLocation() {
 	return gridLocation;
-}
-
-bool ABaseTile::InMovementRange(ABaseUnit* unit) {
-	Point unitLocation = gameState->GetUnderworldMap()->LocationToPoint(unit->GetActorLocation());
-	
-	int deltaX = unitLocation.x - gridLocation.x;
-	int deltaY = unitLocation.y - gridLocation.y;
-	float distance = FGenericPlatformMath::Sqrt(FGenericPlatformMath::Pow(deltaX, 2) + FGenericPlatformMath::Pow(deltaY, 2));
-	
-	return (distance <= unit->GetMobility()) ? true : false;
-}
-bool ABaseTile::InSprintRange(ABaseUnit* unit) {
-	Point unitLocation = gameState->GetUnderworldMap()->LocationToPoint(unit->GetActorLocation());
-
-	int deltaX = unitLocation.x - gridLocation.x;
-	int deltaY = unitLocation.y - gridLocation.y;
-	float distance = FGenericPlatformMath::Sqrt(FGenericPlatformMath::Pow(deltaX, 2) + FGenericPlatformMath::Pow(deltaY, 2));
-
-	return (distance <= 2 * unit->GetMobility()) ? true : false;
 }

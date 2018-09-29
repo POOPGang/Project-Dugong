@@ -108,15 +108,14 @@ Point ATileMap::LocationToPoint(FVector location) {
 	return Point(location.X / (tileSize + tilePadding), location.Y / (tileSize + tilePadding));
 }
 
+//Reverts tiles marked "dirty" by DisplayMovementTile
 void ATileMap::ClearMovementTiles() {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Clearing Move Tiles"));
-	}
 	for (ABaseTile* tile : dirtyTiles) {
 		tile->SwapMaterial(basicMaterial);
 	}
 	dirtyTiles.Empty();
 }
+
 void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Setting Move Tiles"));
@@ -124,15 +123,6 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 
 	auto moveCosts = unit->GetMoveCosts();
 
-	/*for (ABaseTile* tile : tiles) {
-		if (tile->InMovementRange(unit)) {
-			tile->SwapMaterial(firstMoveMaterial);
-		}
-		else if (tile->InSprintRange(unit)) {
-			tile->SwapMaterial(secondMoveMaterial);
-		}
-	}*/
-	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("MoveCost 0 0: %d", moveCosts[0][0])));
 	if (unit->GetActionPoints() > 1) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -151,8 +141,10 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 	else if (unit->GetActionPoints() > 0) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				if (moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0)
+				if (moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0){
 					this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
+					dirtyTiles.Add(this->operator()(i, j));
+				}
 			}
 		}
 	}

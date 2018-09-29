@@ -18,10 +18,11 @@ ABaseUnit::ABaseUnit(){
 	
 	//Set default values
 	name = "A Base Unit";
-	hp = 4;
+	maxHP = hp = 4;
 	mobility = 5;
 	aim = 65;
-	ap = 2;
+	maxAP = ap = 2;
+	isMoving = false;
 	
 }
 void ABaseUnit::OnConstruction(const FTransform& Transform) {
@@ -41,7 +42,13 @@ void ABaseUnit::BeginPlay(){
 		return;
 	}
 
-	
+	//Init movement cost array to  for later pathfinding
+	for (int i = 0; i < gameState->GetUnderworldMap()->rows; i++) {
+		TArray<float> temp;
+		temp.Init(TNumericLimits<float>::Max(), gameState->GetUnderworldMap()->cols);
+		moveCosts.Add(temp);
+	}
+
 
 	gridLocation = gameState->GetUnderworldMap()->LocationToPoint(this->GetActorLocation());
 }
@@ -49,7 +56,6 @@ void ABaseUnit::BeginPlay(){
 // Called every frame
 void ABaseUnit::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -59,8 +65,16 @@ void ABaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
-	if(gameState)
+	if (gameState && ap > 0) {
 		gameState->SetActiveUnit(this);
+	}
+	else {
+		//Make unit flash to indicate no AP
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("This unit has no more action points"));
+		}
+	}
+	
 }
 
 //Helper function to calculate cost of horizontal and diagonal movements in the underworld
@@ -99,26 +113,21 @@ void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Calculating move cost for unit")));
 	}
-
-	//Tests for TileMap Operator overload
-	/*if (map->operator()(-1, -1) == nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Pass")));
+	if (ap == 0) {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("No AP, cost calculation cancelled")));
+		return;
 	}
-	if (map->operator()(map->rows-1, map->cols-1) == nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Fail")));
-	}*/
-
-	Point currLoc(gridLocation);
+	Point currLoc(map->LocationToPoint(this->GetActorLocation()));
 	TQueue<Point> q;
 	TArray<TArray<bool>> visited;
 	
-	//Init movement cost array to  for later pathfinding
-	for (int i = 0; i < gameState->GetUnderworldMap()->rows; i++) {
+	//Clear cost array
+	for (int i = 0; i < moveCosts.Num(); i++) {
 		TArray<float> temp;
 		temp.Init(TNumericLimits<float>::Max(), gameState->GetUnderworldMap()->cols);
-		moveCosts.Add(temp);
+		moveCosts[i] = temp;
 	}
-
+	
 	//Init visited array to false for searching
 	for (int i = 0; i < map->rows; i++) {
 		TArray<bool> temp;
@@ -143,9 +152,12 @@ void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 					Point targetLoc(targetTile->GetGridLocation());
 
 					if (!targetTile->isOccupied && !visited[targetLoc.x][targetLoc.y]) { //And it's not occupied and hasn't been visited
-						q.Enqueue(targetTile->GetGridLocation()); //Add it to the search queue
+						moveCosts[targetLoc.x][targetLoc.y] = MinPathCost(targetLoc, moveCosts); //Find the cost to move to that tile
 						visited[targetLoc.x][targetLoc.y] = true; //Mark it as visited for future loops
-						moveCosts[targetLoc.x][targetLoc.y] = MinPathCost(targetLoc, moveCosts); //And update it's cost
+
+						if (moveCosts[targetLoc.x][targetLoc.y] <= mobility * 2) {
+							q.Enqueue(targetTile->GetGridLocation()); //Add it to the search queue only if it's within move range anyway
+						}
 					}
 				}
 			}
@@ -161,4 +173,46 @@ TArray<TArray<float>> ABaseUnit::GetMoveCosts() {
 
 int ABaseUnit::GetMobility() {
 	return mobility;
+}
+int ABaseUnit::GetActionPoints() {
+	return ap;
+}
+
+void ABaseUnit::UseActionPoint() {
+	ap--;
+}
+
+bool ABaseUnit::GetIsMoving() {
+	return isMoving;
+}
+
+void ABaseUnit::RefreshActionPoints() {
+	ap = maxAP;
+}
+
+bool ABaseUnit::StartMoving(ABaseTile* target) {
+	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, 
+		FColor::Yellow, 
+		FString::Printf(TEXT("Mobility: %d \n Movement Cost: %f"), mobility, movementCost));
+	if ( movementCost <= mobility && movementCost > 0) {
+		isMoving = true;
+		UseActionPoint();
+	}
+	else if (movementCost <= 2 * mobility && movementCost > 0) {
+		isMoving = true;
+		UseActionPoint();
+		UseActionPoint();
+	}
+	else {
+		isMoving = false;
+	}
+	return isMoving;
+}
+
+void ABaseUnit::StopMoving() {
+	isMoving = false;
+	gameState->GetUnderworldMap()->ClearMovementTiles();
+	PopulateMoveCosts(gameState->GetUnderworldMap());
+	gameState->GetUnderworldMap()->DisplayMovementTiles(this);
 }

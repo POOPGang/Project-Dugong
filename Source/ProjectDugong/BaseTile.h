@@ -44,6 +44,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+	void TileOnClicked(AActor* TouchedActor, FKey ButtonPressed);
+
 	UFUNCTION()
 	void CustomOnBeginMouseOver(UPrimitiveComponent* TouchedComponent);
 	
@@ -51,6 +54,4 @@ public:
 
 	Point GetGridLocation();
 
-	bool InMovementRange(ABaseUnit* unit);
-	bool InSprintRange(ABaseUnit* unit);
 };
