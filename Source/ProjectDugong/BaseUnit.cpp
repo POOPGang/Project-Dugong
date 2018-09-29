@@ -9,6 +9,7 @@
 
 #include "UObject/ConstructorHelpers.h"
 #include "Queue.h"
+#include "NumericLimits.h"
 
 // Sets default values
 ABaseUnit::ABaseUnit(){
@@ -40,12 +41,7 @@ void ABaseUnit::BeginPlay(){
 		return;
 	}
 
-	//Init movement cost array to -1 for later pathfinding
-	for (int i = 0; i < gameState->GetUnderworldMap()->rows; i++) {
-		TArray<float> temp;
-		temp.Init(-1, gameState->GetUnderworldMap()->cols);
-		moveCosts.Add(temp);
-	}
+	
 
 	gridLocation = gameState->GetUnderworldMap()->LocationToPoint(this->GetActorLocation());
 }
@@ -63,16 +59,42 @@ void ABaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
-	gameState->SetActiveUnit(this);
+	if(gameState)
+		gameState->SetActiveUnit(this);
 }
 
-int CalcCost(Point curr, Point target) {
+//Helper function to calculate cost of horizontal and diagonal movements in the underworld
+float CalcCost(Point curr, Point target) {
 	int deltaX = curr.x - target.x;
 	int deltaY = curr.y - target.y;
 	
 	return (deltaX != 0 && deltaY != 0) ? 1.5 : 1;
 }
+float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
+	int rows = moveCosts.Num();
+	int cols = moveCosts[0].Num();
 
+	float min = TNumericLimits<float>::Max();
+	Point base;
+
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			int x = targetLoc.x + i;
+			int y = targetLoc.y + j;
+			
+			//Bounds checking
+			if (x < 0 || y < 0 || x >= rows || y >= cols)
+				continue;
+
+			if (moveCosts[x][y] < min) {
+				base.x = x; 
+				base.y = y;
+				min = moveCosts[x][y];
+			}
+		}
+	}
+	return min + CalcCost(base, targetLoc);
+}
 void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Calculating move cost for unit")));
@@ -89,8 +111,15 @@ void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 	Point currLoc(gridLocation);
 	TQueue<Point> q;
 	TArray<TArray<bool>> visited;
+	
+	//Init movement cost array to  for later pathfinding
+	for (int i = 0; i < gameState->GetUnderworldMap()->rows; i++) {
+		TArray<float> temp;
+		temp.Init(TNumericLimits<float>::Max(), gameState->GetUnderworldMap()->cols);
+		moveCosts.Add(temp);
+	}
 
-	//Init visitedt array to false for searching
+	//Init visited array to false for searching
 	for (int i = 0; i < map->rows; i++) {
 		TArray<bool> temp;
 		temp.Init(false, gameState->GetUnderworldMap()->cols);
@@ -116,7 +145,7 @@ void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 					if (!targetTile->isOccupied && !visited[targetLoc.x][targetLoc.y]) { //And it's not occupied and hasn't been visited
 						q.Enqueue(targetTile->GetGridLocation()); //Add it to the search queue
 						visited[targetLoc.x][targetLoc.y] = true; //Mark it as visited for future loops
-						moveCosts[targetLoc.x][targetLoc.y] = moveCosts[currLoc.x][currLoc.y] + CalcCost(currLoc, targetLoc); //And update it's cost
+						moveCosts[targetLoc.x][targetLoc.y] = MinPathCost(targetLoc, moveCosts); //And update it's cost
 					}
 				}
 			}
