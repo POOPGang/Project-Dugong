@@ -112,9 +112,10 @@ void ATileMap::ClearMovementTiles() {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Clearing Move Tiles"));
 	}
-	for (ABaseTile* tile : tiles) {
+	for (ABaseTile* tile : dirtyTiles) {
 		tile->SwapMaterial(basicMaterial);
 	}
+	dirtyTiles.Empty();
 }
 void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 	if (GEngine) {
@@ -132,15 +133,30 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 		}
 	}*/
 	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("MoveCost 0 0: %d", moveCosts[0][0])));
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
-			
-			if(moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0)
-				this->operator()(i, j)->SwapMaterial(firstMoveMaterial);
-			else if(moveCosts[i][j] <= unit->GetMobility() * 2 && moveCosts[i][j] > 0)
-				this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
+	if (unit->GetActionPoints() > 1) {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0) {
+					this->operator()(i, j)->SwapMaterial(firstMoveMaterial);
+					dirtyTiles.Add(this->operator()(i, j));
+				}
+					
+				else if (moveCosts[i][j] <= unit->GetMobility() * 2 && moveCosts[i][j] > 0) {
+					this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
+					dirtyTiles.Add(this->operator()(i, j));
+				}
+			}
 		}
 	}
+	else if (unit->GetActionPoints() > 0) {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0)
+					this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
+			}
+		}
+	}
+	
 }
 
 

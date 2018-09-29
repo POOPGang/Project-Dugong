@@ -22,6 +22,9 @@ private: //Private member variables and functions
 	//The procedurally generated map mesh.
 	TArray<ABaseTile*> tiles;
 	
+	//Tiles that need to be cleaned up when move display appears
+	TArray<ABaseTile*> dirtyTiles;
+
 	void CreateTile(int row, int col);
 	void GenerateMap();
 	void SpawnUnits();
