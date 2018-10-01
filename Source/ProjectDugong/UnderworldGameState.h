@@ -20,10 +20,10 @@ class PROJECTDUGONG_API AUnderworldGameState : public AGameState
 	
 private:
 	ATileMap* underworldMap;
-	
 	ABaseUnit* activeUnit;
-
 	ABaseTile* activeTile;
+	
+	bool isPlayerTurn;
 
 protected:
 	virtual void BeginPlay() override;
@@ -41,4 +41,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ClearActiveUnit();
 	
+	UFUNCTION(BlueprintCallable)
+	ABaseTile* GetActiveTile();
+
+	UFUNCTION(BlueprintCallable)
+	void SetActiveTile(ABaseTile* tile);
+
+	UFUNCTION(BlueprintCallable)
+	void ClearActiveTile();
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleTurn();
+	
+	UFUNCTION(BlueprintCallable)
+	bool GetIsPlayerTurn();
 };

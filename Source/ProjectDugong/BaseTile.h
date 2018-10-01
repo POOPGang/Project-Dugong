@@ -2,6 +2,7 @@
 
 #pragma once
 
+class AUnderworldGameState;
 class ABaseUnit;
 
 #include "Types.h"
@@ -16,15 +17,16 @@ class PROJECTDUGONG_API ABaseTile : public AActor
 	GENERATED_BODY()
 	
 public:	
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* tileMeshComponent;
+
 
 	// Sets default values for this actor's properties
 	ABaseTile();
-	void Init(Point p, int tileSize, int tilePadding, int index);
+	void Init(Point p, int tileSize, int tilePadding, int index, bool isOccupied);
 
-private:
+protected:
+	AUnderworldGameState* gameState;
 	Point gridLocation;
+	
 	int tileSize;
 	int tilePadding;
 	int index;
@@ -34,17 +36,22 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* tileMeshComponent;
+	
 	bool isOccupied;
-
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void TileOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 
 	UFUNCTION()
 	void CustomOnBeginMouseOver(UPrimitiveComponent* TouchedComponent);
 	
 	void SwapMaterial(UMaterial* newMaterial);
 
-	bool InMovementRange(ABaseUnit* unit);
-	bool InSprintRange(ABaseUnit* unit);
+	Point GetGridLocation();
+
 };

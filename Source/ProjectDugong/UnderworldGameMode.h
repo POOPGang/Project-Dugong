@@ -2,11 +2,6 @@
 
 #pragma once
 
-//Forward class declarations to avoid circular dependencies.
-class ATileMap;
-class ABaseUnit;
-class ABaseTile;
-
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
 #include "UnderworldGameMode.generated.h"
