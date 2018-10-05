@@ -47,9 +47,6 @@ void ABaseTile::Tick(float DeltaTime){
 }
 
 void ABaseTile::TileOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Tile right clicked")));
-	}
 	if (gameState == nullptr) {
 		return;
 	}

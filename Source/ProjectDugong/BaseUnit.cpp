@@ -71,7 +71,7 @@ void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 	else {
 		//Make unit flash to indicate no AP
 		if (GEngine) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("This unit has no more action points"));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("This unit has no more action points"));
 		}
 	}
 	
@@ -84,6 +84,8 @@ float CalcCost(Point curr, Point target) {
 	
 	return (deltaX != 0 && deltaY != 0) ? 1.5 : 1;
 }
+
+//Helper function to get the minimum cost for each tile by comparing to nearby tiles.
 float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
 	int rows = moveCosts.Num();
 	int cols = moveCosts[0].Num();
@@ -110,11 +112,8 @@ float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
 	return min + CalcCost(base, targetLoc);
 }
 void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Calculating move cost for unit")));
-	}
+	//Defer calculating costs until the unit is picked and can move.
 	if (ap == 0) {
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("No AP, cost calculation cancelled")));
 		return;
 	}
 	Point currLoc(map->LocationToPoint(this->GetActorLocation()));
@@ -192,9 +191,7 @@ void ABaseUnit::RefreshActionPoints() {
 
 bool ABaseUnit::StartMoving(ABaseTile* target) {
 	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, 
-		FColor::Yellow, 
-		FString::Printf(TEXT("Mobility: %d \n Movement Cost: %f"), mobility, movementCost));
+
 	if ( movementCost <= mobility && movementCost > 0) {
 		isMoving = true;
 		UseActionPoint();
