@@ -22,10 +22,13 @@ class PROJECTDUGONG_API UMasterGameInstance : public UGameInstance
 public:
 	UPROPERTY(EditAnywhere)
 	int mysterium = 0;
+	
 	UPROPERTY(EditAnywhere)
 	FVector newPlayerLocation;
+	
 	UPROPERTY(EditAnywhere)
 	float DOOOM = 50.0;
+	
 	UPROPERTY(EditAnywhere)
 	AActor* newNodeSelected;
 	

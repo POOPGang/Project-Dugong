@@ -17,7 +17,5 @@ class PROJECTDUGONG_API AUnderworldUnitController : public AAIController
 {
 	GENERATED_BODY()
 
-		UFUNCTION(BlueprintCallable)
-		void MoveUnitToTile(ABaseUnit* unit, ABaseTile* target);
 	
 };
