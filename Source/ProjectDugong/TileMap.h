@@ -89,4 +89,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DisplayMovementTiles(ABaseUnit* unit);
 
+	void SnapUnitToTile(ABaseUnit* unit, ABaseTile* tile);
+
 };

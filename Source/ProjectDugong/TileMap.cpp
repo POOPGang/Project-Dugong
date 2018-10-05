@@ -148,7 +148,11 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 	
 }
 
-
-
-
-
+//Comprimise for unit movement acceptance radius problems
+void ATileMap::SnapUnitToTile(ABaseUnit* unit, ABaseTile* tile) {
+	float currZ = unit->GetActorLocation().Z;
+	Point targetGridLocation = tile->GetGridLocation();
+	FVector targetLocation = PointToLocation(targetGridLocation);
+	targetLocation.Z += currZ;
+	unit->SetActorLocation(targetLocation);
+}

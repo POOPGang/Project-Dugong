@@ -209,6 +209,13 @@ bool ABaseUnit::StartMoving(ABaseTile* target) {
 
 void ABaseUnit::StopMoving() {
 	isMoving = false;
+
+	
+	//Snap to tile
+	gameState->GetUnderworldMap()->SnapUnitToTile(this, gameState->GetActiveTile());
+
+	
+
 	gameState->GetUnderworldMap()->ClearMovementTiles();
 	PopulateMoveCosts(gameState->GetUnderworldMap());
 	gameState->GetUnderworldMap()->DisplayMovementTiles(this);
