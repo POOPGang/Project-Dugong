@@ -118,7 +118,6 @@ void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 		return;
 	}
 	Point currLoc = gridLocation;
-	GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Red, FString::Printf(TEXT("Base of move calculation: %d %d"), currLoc.x, currLoc.y));
 	TQueue<Point> q;
 	TArray<TArray<bool>> visited;
 	
@@ -194,8 +193,6 @@ void ABaseUnit::RefreshActionPoints() {
 bool ABaseUnit::StartMoving(ABaseTile* target) {
 	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
 
-	GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Red, FString::Printf(TEXT("Move Target: %d %d"), target->GetGridLocation().x, target->GetGridLocation().y));
-
 	if ( movementCost <= mobility && movementCost > 0) {
 		isMoving = true;
 		UseActionPoint();
@@ -218,8 +215,6 @@ void ABaseUnit::StopMoving(ABaseTile* target) {
 	
 	//Update Grid Location
 	gridLocation = target->GetGridLocation();
-
-	GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Red, FString::Printf(TEXT("After Move: %d %d"), gridLocation.x, gridLocation.y));
 
 	gameState->GetUnderworldMap()->ClearMovementTiles();
 	PopulateMoveCosts(gameState->GetUnderworldMap());
