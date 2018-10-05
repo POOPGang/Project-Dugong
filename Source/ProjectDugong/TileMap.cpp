@@ -150,9 +150,14 @@ void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 
 //Comprimise for unit movement acceptance radius problems
 void ATileMap::SnapUnitToTile(ABaseUnit* unit, ABaseTile* tile) {
-	float currZ = unit->GetActorLocation().Z;
+
+	//Get target tile actor location (which is around where the unit stops moving)
 	Point targetGridLocation = tile->GetGridLocation();
 	FVector targetLocation = PointToLocation(targetGridLocation);
-	targetLocation.Z += currZ;
+
+	//Keep the unit z height the same
+	targetLocation.Z += unit->GetActorLocation().Z;
+	
+	//Snap that bad boy to the tile
 	unit->SetActorLocation(targetLocation);
 }
