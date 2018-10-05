@@ -23,9 +23,6 @@ ABaseUnit* AUnderworldGameState::GetActiveUnit() {
 }
 
 void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Setting active unit")));
-	
 	//Failure states. Returning here prevents segmentation faults.
 	if (underworldMap == nullptr || unit == nullptr) {
 		return;

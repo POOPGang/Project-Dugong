@@ -117,9 +117,6 @@ void ATileMap::ClearMovementTiles() {
 }
 
 void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Setting Move Tiles"));
-	}
 
 	auto moveCosts = unit->GetMoveCosts();
 
