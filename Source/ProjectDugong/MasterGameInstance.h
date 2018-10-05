@@ -27,6 +27,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	float DOOOM = 50.0;
 	UPROPERTY(EditAnywhere)
-	AActor newNodeSelected;
+	AActor* newNodeSelected;
 	
 };
