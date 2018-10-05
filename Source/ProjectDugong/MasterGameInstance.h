@@ -31,5 +31,13 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	AActor* newNodeSelected;
+
+	//UFUNCTION(BlueprintCallable)
+	//function to pull squad list from ?
+
+	//UFUNCTION(BlueprintCallable)
+	//function to push squad list into underworld
+
+	//way to continually modify and update squad list within prebattle screen
 	
 };
