@@ -77,5 +77,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool StartMoving(ABaseTile* target);
 	UFUNCTION(BlueprintCallable)
-	void StopMoving();
+	void StopMoving(ABaseTile* target);
 };

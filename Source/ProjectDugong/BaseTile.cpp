@@ -47,6 +47,7 @@ void ABaseTile::Tick(float DeltaTime){
 }
 
 void ABaseTile::TileOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Tile Position: %d %d"), gridLocation.x, gridLocation.y));
 	if (gameState == nullptr) {
 		return;
 	}

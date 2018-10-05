@@ -111,12 +111,14 @@ float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
 	}
 	return min + CalcCost(base, targetLoc);
 }
+
 void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 	//Defer calculating costs until the unit is picked and can move.
 	if (ap == 0) {
 		return;
 	}
-	Point currLoc(map->LocationToPoint(this->GetActorLocation()));
+	Point currLoc = gridLocation;
+	GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Red, FString::Printf(TEXT("Base of move calculation: %d %d"), currLoc.x, currLoc.y));
 	TQueue<Point> q;
 	TArray<TArray<bool>> visited;
 	
@@ -192,6 +194,8 @@ void ABaseUnit::RefreshActionPoints() {
 bool ABaseUnit::StartMoving(ABaseTile* target) {
 	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
 
+	GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Red, FString::Printf(TEXT("Move Target: %d %d"), target->GetGridLocation().x, target->GetGridLocation().y));
+
 	if ( movementCost <= mobility && movementCost > 0) {
 		isMoving = true;
 		UseActionPoint();
@@ -204,17 +208,18 @@ bool ABaseUnit::StartMoving(ABaseTile* target) {
 	else {
 		isMoving = false;
 	}
+
 	return isMoving;
 }
 
-void ABaseUnit::StopMoving() {
+//Snaps unit to tile.
+void ABaseUnit::StopMoving(ABaseTile* target) {
 	isMoving = false;
-
 	
-	//Snap to tile
-	gameState->GetUnderworldMap()->SnapUnitToTile(this, gameState->GetActiveTile());
+	//Update Grid Location
+	gridLocation = target->GetGridLocation();
 
-	
+	GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Red, FString::Printf(TEXT("After Move: %d %d"), gridLocation.x, gridLocation.y));
 
 	gameState->GetUnderworldMap()->ClearMovementTiles();
 	PopulateMoveCosts(gameState->GetUnderworldMap());
