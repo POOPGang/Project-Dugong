@@ -13,5 +13,7 @@ UCLASS()
 class PROJECTDUGONG_API APlayerUnit : public ABaseUnit
 {
 	GENERATED_BODY()
-	
+
+	UFUNCTION(BlueprintCallable)
+	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 };

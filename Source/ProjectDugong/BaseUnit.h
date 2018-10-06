@@ -58,8 +58,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintCallable)
+	
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
+	
 	void PopulateMoveCosts(ATileMap* map);
 	
 
@@ -76,6 +77,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool StartMoving(ABaseTile* target);
+	
 	UFUNCTION(BlueprintCallable)
 	void StopMoving(ABaseTile* target);
 };

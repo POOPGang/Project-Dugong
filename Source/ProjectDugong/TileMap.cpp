@@ -50,25 +50,14 @@ void ATileMap::GenerateMap() {
 
 void ATileMap::SpawnUnits() {
 	FVector location = PointToLocation(rows/2, cols/2);
-	FVector locationTwo = PointToLocation(rows / 2, cols / 2);
-	FVector locationThree = PointToLocation(rows / 2, cols / 2);
-	FVector locationFour = PointToLocation(rows / 2, cols / 2);
+
 
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
 	location.Z += 83;
-	//	Added because unsure if location is utilized in the code later and don't want to break anything
-	locationTwo.Z += 83;
-	locationTwo.Y += 200;
-	locationThree.Z += 83;
-	locationThree.Y -= 200;
-	locationFour.Z += 83;
-	locationFour.X -= 200;
 
-	ABaseUnit* unit = GetWorld()->SpawnActor<ABaseUnit>(baseUnitBP, location, rotation, spawnInfo);
-	ABaseUnit* unitTwo = GetWorld()->SpawnActor<ABaseUnit>(baseUnitBP, locationTwo, rotation, spawnInfo);
-	ABaseUnit* unitThree = GetWorld()->SpawnActor<ABaseUnit>(baseUnitBP, locationThree, rotation, spawnInfo);
-	ABaseUnit* unitFour = GetWorld()->SpawnActor<ABaseUnit>(baseUnitBP, locationFour, rotation, spawnInfo);
+	APlayerUnit* unit = GetWorld()->SpawnActor<APlayerUnit>(playerUnitBP, location, rotation, spawnInfo);
+
 }
 
 

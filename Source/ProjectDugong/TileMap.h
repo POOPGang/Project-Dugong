@@ -4,7 +4,9 @@
 #include "Types.h"
 class AUnderworldGameState;
 class ABaseUnit;
+class APlayerUnit;
 class ABaseTile;
+
 
 
 #include "ProceduralMeshComponent.h"
@@ -52,6 +54,9 @@ protected:
 public:	
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseUnit> baseUnitBP;
+	
+	UPROPERTY(EditAnywhere, Category = Actors)
+	TSubclassOf<ABaseUnit> playerUnitBP;
 	
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseTile> baseTileBP;
