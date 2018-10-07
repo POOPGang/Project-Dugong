@@ -25,6 +25,7 @@ ABaseUnit::ABaseUnit(){
 	isMoving = false;
 	
 }
+
 void ABaseUnit::OnConstruction(const FTransform& Transform) {
 	Super::OnConstruction(Transform);
 
