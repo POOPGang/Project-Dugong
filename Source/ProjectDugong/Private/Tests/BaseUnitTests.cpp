@@ -73,6 +73,20 @@ bool FBaseUnitRefreshAPTest::RunTest(const FString& Parameters) {
 	return true;
 }
 
+//Refresh AP Test
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FBaseUnitCalcStepCostTest, "DugongTestSuite.BaseUnit.UnitTests.CalculateStepCost", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+bool FBaseUnitCalcStepCostTest::RunTest(const FString& Parameters) {
+	Point base(0, 0);
+	
+	/*
+		* x x
+		x * x
+		x x x
+	*/
+	
+
+}
+
 // Dummy ctor
 ABaseUnitTests::ABaseUnitTests(){
 

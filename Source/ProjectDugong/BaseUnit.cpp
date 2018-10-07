@@ -82,6 +82,8 @@ float CalcStepCost(Point curr, Point target) {
 	int deltaX = curr.x - target.x;
 	int deltaY = curr.y - target.y;
 	
+	if (deltaX > 1 || deltaY > 1) return TNumericLimits<float>::Max();
+
 	return (deltaX != 0 && deltaY != 0) ? 1.5 : 1;
 }
 
