@@ -13,4 +13,8 @@ typedef struct Point {
 	//Copy constructor
 	Point(const Point &p) { x = p.x; y = p.y; }
 
+	bool operator ==(const Point other) {
+		return ((x == other.x) && (y == other.y));
+	}
+
 } Point;
