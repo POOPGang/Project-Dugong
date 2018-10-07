@@ -5,6 +5,7 @@
 #include "BaseUnit.h"
 #include "BaseTile.h"
 #include "PlayerUnit.h"
+#include "EnemyUnit.h"
 #include "UnderworldGameState.h"
 
 #include "UObject/ConstructorHelpers.h"
@@ -50,14 +51,16 @@ void ATileMap::GenerateMap() {
 
 void ATileMap::SpawnUnits() {
 	FVector location = PointToLocation(rows/2, cols/2);
-
+	FVector enemyLocation = PointToLocation(rows / 2, cols / 2);
 
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
 	location.Z += 83;
+	enemyLocation.Z += 83;
+	enemyLocation.Y += 500;
 
 	APlayerUnit* unit = GetWorld()->SpawnActor<APlayerUnit>(playerUnitBP, location, rotation, spawnInfo);
-
+	AEnemyUnit* evilUnit = GetWorld()->SpawnActor<AEnemyUnit>(enemyUnitBP, location, rotation, spawnInfo);
 }
 
 

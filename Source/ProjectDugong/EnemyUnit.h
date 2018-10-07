@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "BaseUnit.h"
-#include "PlayerUnit.generated.h"
+#include "EnemyUnit.generated.h"
 
 UCLASS()
-class PROJECTDUGONG_API APlayerUnit : public ABaseUnit
+class PROJECTDUGONG_API AEnemyUnit : public ABaseUnit
 {
 	GENERATED_BODY()
 
@@ -15,6 +15,6 @@ class PROJECTDUGONG_API APlayerUnit : public ABaseUnit
 
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 	void Init(FString name, int maxHP, int hp, int mobility, int aim, int maxAP, int ap, bool isMoving);
-
+	
 
 };

@@ -2,8 +2,6 @@
 
 #include "PlayerUnit.h"
 
-/**/
-
 void APlayerUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 	//Call to the parent't implementation of UnitOnClicked
 	ABaseUnit::UnitOnClicked(TouchedActor, ButtonPressed);

@@ -5,6 +5,7 @@
 class AUnderworldGameState;
 class ABaseUnit;
 class APlayerUnit;
+class AEnemyUnit;
 class ABaseTile;
 
 
@@ -57,6 +58,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseUnit> playerUnitBP;
+
+	UPROPERTY(EditAnywhere, Category = Actors)
+	TSubclassOf<ABaseUnit> enemyUnitBP;
 	
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseTile> baseTileBP;
