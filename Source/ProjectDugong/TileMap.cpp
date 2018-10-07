@@ -99,7 +99,7 @@ void ATileMap::Tick(float DeltaTime){
 }
 
 FVector ATileMap::PointToLocation(int x, int y) {
-	return FVector(x * (tileSize + tilePadding), y * (tileSize + tilePadding), 0);
+	return PointToLocation(Point(x,y));
 }
 FVector ATileMap::PointToLocation(Point p) {
 	return FVector(p.x * (tileSize + tilePadding), p.y * (tileSize + tilePadding), 0);
