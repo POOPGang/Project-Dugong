@@ -57,10 +57,10 @@ public:
 	TSubclassOf<ABaseUnit> baseUnitBP;
 	
 	UPROPERTY(EditAnywhere, Category = Actors)
-	TSubclassOf<ABaseUnit> playerUnitBP;
+	TSubclassOf<APlayerUnit> playerUnitBP;
 
 	UPROPERTY(EditAnywhere, Category = Actors)
-	TSubclassOf<ABaseUnit> enemyUnitBP;
+	TSubclassOf<AEnemyUnit> enemyUnitBP;
 	
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseTile> baseTileBP;
