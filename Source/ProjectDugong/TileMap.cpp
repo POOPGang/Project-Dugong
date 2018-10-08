@@ -51,7 +51,7 @@ void ATileMap::GenerateMap() {
 
 void ATileMap::SpawnUnits() {
 	FVector location = PointToLocation(10, 10);
-	FVector enemyLocation = PointToLocation(rows / 2, cols / 2);
+	FVector enemyLocation = PointToLocation(1, 1);
 
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
