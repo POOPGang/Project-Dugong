@@ -78,15 +78,16 @@ void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 }
 
 //Helper function to calculate cost of horizontal and diagonal movements in the underworld
-float CalcCost(Point curr, Point target) {
+float CalcStepCost(Point curr, Point target) {
 	int deltaX = curr.x - target.x;
 	int deltaY = curr.y - target.y;
 	
+	if (deltaX > 1 || deltaY > 1) return TNumericLimits<float>::Max();
+
 	return (deltaX != 0 && deltaY != 0) ? 1.5 : 1;
 }
 
-//Helper function to get the minimum cost for each tile by comparing to nearby tiles.
-float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
+Point FindCheapestNeighbor(Point targetLoc, TArray<TArray<float>> moveCosts) {
 	int rows = moveCosts.Num();
 	int cols = moveCosts[0].Num();
 
@@ -97,19 +98,26 @@ float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
 		for (int j = -1; j <= 1; j++) {
 			int x = targetLoc.x + i;
 			int y = targetLoc.y + j;
-			
+
 			//Bounds checking
 			if (x < 0 || y < 0 || x >= rows || y >= cols)
 				continue;
 
 			if (moveCosts[x][y] < min) {
-				base.x = x; 
+				base.x = x;
 				base.y = y;
 				min = moveCosts[x][y];
 			}
 		}
 	}
-	return min + CalcCost(base, targetLoc);
+	return base;
+}
+
+//Helper function to get the minimum cost for each tile by comparing to nearby tiles.
+float MinPathCost(Point targetLoc, TArray<TArray<float>> moveCosts) {
+	Point base = FindCheapestNeighbor(targetLoc, moveCosts);
+	float minCost = moveCosts[base.x][base.y];
+	return minCost + CalcStepCost(base, targetLoc);
 }
 
 void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
@@ -179,7 +187,9 @@ int ABaseUnit::GetActionPoints() {
 }
 
 void ABaseUnit::UseActionPoint() {
-	ap--;
+	if (ap > 0) { 
+		ap--; 
+	}
 }
 
 bool ABaseUnit::GetIsMoving() {

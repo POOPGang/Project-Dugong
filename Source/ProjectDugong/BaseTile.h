@@ -4,6 +4,7 @@
 
 class AUnderworldGameState;
 class ABaseUnit;
+class UMaterial;
 
 #include "Types.h"
 

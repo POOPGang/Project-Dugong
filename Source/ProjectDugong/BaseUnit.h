@@ -60,10 +60,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
+	
 	void PopulateMoveCosts(ATileMap* map);
 	
-
 	TArray<TArray<float>> GetMoveCosts();
+	
 	int GetMobility();
 
 	UFUNCTION(BlueprintCallable)
@@ -72,10 +73,12 @@ public:
 	UFUNCTION(BlueprintCallable) 
 	bool GetIsMoving();
 
+	UFUNCTION()
 	void RefreshActionPoints();
 
 	UFUNCTION(BlueprintCallable)
 	bool StartMoving(ABaseTile* target);
+	
 	UFUNCTION(BlueprintCallable)
 	void StopMoving(ABaseTile* target);
 };
