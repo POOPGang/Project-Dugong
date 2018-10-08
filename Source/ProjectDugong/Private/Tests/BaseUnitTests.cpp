@@ -14,7 +14,7 @@
 
 //Dugong Headers
 #include "Types.h"
-
+#include "BaseTile.h"
 //This define makes me feel dirty. However, it allows the tests to read protected members without bloating the Base Unit definition
 //This avoids adding getters and setters that are only used by the testing suite.
 #define protected public
@@ -45,8 +45,6 @@ bool FBaseUnitConstructorTest::RunTest(const FString& Parameters) {
 	return false;
 }
 
-
-
 //Refresh AP Test
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FBaseUnitRefreshAPTest, "DugongTestSuite.BaseUnit.UnitTests.BaseUnitRefreshAP", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 bool FBaseUnitRefreshAPTest::RunTest(const FString& Parameters) {
@@ -71,20 +69,6 @@ bool FBaseUnitRefreshAPTest::RunTest(const FString& Parameters) {
 
 
 	return true;
-}
-
-//Refresh AP Test
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FBaseUnitCalcStepCostTest, "DugongTestSuite.BaseUnit.UnitTests.CalculateStepCost", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
-bool FBaseUnitCalcStepCostTest::RunTest(const FString& Parameters) {
-	Point base(0, 0);
-	
-	/*
-		* x x
-		x * x
-		x x x
-	*/
-	
-
 }
 
 // Dummy ctor
