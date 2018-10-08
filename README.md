@@ -33,7 +33,8 @@ By combining these ideas from various games and forming them into one cohesive p
  * Design Documents
     * [UML Diagram](https://github.com/POOPGang/Project-Dugong/blob/master/Product%20Management/UML/SystemArchitecture.png)
  * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
- * Test Cases
+ * [Test Cases](https://github.com/POOPGang/Project-Dugong/tree/master/Source/ProjectDugong/Private/Tests)
+ * [Demo](https://youtu.be/S1d3dCOJrn8)
  
  
 # **Sprint 3** #
@@ -44,7 +45,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * Requirements
  * Design Documents
    * [UML Diagram](https://github.com/POOPGang/Project-Dugong/blob/master/Product%20Management/UML/SystemArchitecture.png)
- * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
+ * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source/ProjectDugong)
  * Test Cases
 
 # **Sprint 4** #
