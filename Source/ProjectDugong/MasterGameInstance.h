@@ -20,17 +20,35 @@ class PROJECTDUGONG_API UMasterGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
-	int mysterium = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int mysterium = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int energy = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int scrap = 3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int explosives = 3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int medkits = 2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int rations = 4;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector newPlayerLocation;
 	
-	UPROPERTY(EditAnywhere)
-	FVector newPlayerLocation;
-	
-	UPROPERTY(EditAnywhere)
-	float DOOOM = 50.0;
-	
-	UPROPERTY(EditAnywhere)
-	AActor* newNodeSelected;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float DOOOM = .5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		AActor* newNodeSelected;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString ERROR_message = FString(TEXT("ERROR"));
 
 	//UFUNCTION(BlueprintCallable)
 	//function to pull squad list from ?
