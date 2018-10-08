@@ -50,7 +50,7 @@ void ATileMap::GenerateMap() {
 }
 
 void ATileMap::SpawnUnits() {
-	FVector location = PointToLocation(rows/2, cols/2);
+	FVector location = PointToLocation(10, 10);
 	FVector enemyLocation = PointToLocation(rows / 2, cols / 2);
 
 	FRotator rotation(0, 0, 0);
@@ -60,7 +60,8 @@ void ATileMap::SpawnUnits() {
 	enemyLocation.Y += 500;
 
 	APlayerUnit* unit = GetWorld()->SpawnActor<APlayerUnit>(playerUnitBP, location, rotation, spawnInfo);
-	AEnemyUnit* evilUnit = GetWorld()->SpawnActor<AEnemyUnit>(enemyUnitBP, location, rotation, spawnInfo);
+
+	AEnemyUnit* evilUnit = GetWorld()->SpawnActor<AEnemyUnit>(enemyUnitBP, enemyLocation, rotation, spawnInfo);
 }
 
 
