@@ -7,6 +7,8 @@
 #include "UnderworldGameState.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Runtime/Engine/Classes/Materials/MaterialInstance.h"
+#include "Runtime/Engine/Classes/Materials/MaterialInstanceDynamic.h"
 #include "GenericPlatformMath.h"
 
 // Sets default values
@@ -64,7 +66,7 @@ void ABaseTile::CustomOnBeginMouseOver(UPrimitiveComponent* TouchedComponent) {
 }
 
 void ABaseTile::SwapMaterial(UMaterial* newMaterial) {
-	UMaterialInstanceDynamic* material = UMaterialInstanceDynamic::Create(newMaterial, this);
+	UMaterialInstance* material = UMaterialInstanceDynamic::Create(newMaterial, this);
 	if (material) {
 		tileMeshComponent->SetMaterial(0, material);
 	}

@@ -12,6 +12,10 @@ public class ProjectDugong : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
+        if (Target.Type == TargetRules.TargetType.Editor) {
+            PublicDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+        }
+
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		

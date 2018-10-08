@@ -63,8 +63,8 @@ public:
 	
 	void PopulateMoveCosts(ATileMap* map);
 	
-
 	TArray<TArray<float>> GetMoveCosts();
+	
 	int GetMobility();
 
 	UFUNCTION(BlueprintCallable)
@@ -73,6 +73,7 @@ public:
 	UFUNCTION(BlueprintCallable) 
 	bool GetIsMoving();
 
+	UFUNCTION()
 	void RefreshActionPoints();
 
 	UFUNCTION(BlueprintCallable)
