@@ -24,6 +24,7 @@ ABaseUnit::ABaseUnit(){
 	maxAP = ap = 2;
 	isMoving = false;
 	
+	SetCanAffectNavigationGeneration(true);
 }
 
 void ABaseUnit::OnConstruction(const FTransform& Transform) {
@@ -54,6 +55,15 @@ void ABaseUnit::BeginPlay(){
 	gridLocation = gameState->GetUnderworldMap()->LocationToPoint(this->GetActorLocation());
 }
 
+ABaseTile* ABaseUnit::GetCurrentTile() {
+	return gameState->GetUnderworldMap()->operator()(gridLocation);
+}
+
+void ABaseUnit::SpawnInit(Point p){
+	ABaseTile* spawnTile = GetCurrentTile();
+	spawnTile->Occupy();
+}
+
 // Called every frame
 void ABaseUnit::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
@@ -64,6 +74,8 @@ void ABaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+
 
 void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 	if (gameState && ap > 0) {
@@ -201,17 +213,21 @@ void ABaseUnit::RefreshActionPoints() {
 	ap = maxAP;
 }
 
+
+
+
+//TODO: Convert to no args, do move check in AI controller.
 bool ABaseUnit::StartMoving(ABaseTile* target) {
+	ABaseTile* currTile = GetCurrentTile();
+	currTile->DeOccupy();
+	
 	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
 
 	if ( movementCost <= mobility && movementCost > 0) {
-		isMoving = true;
-		UseActionPoint();
+		Walk();
 	}
 	else if (movementCost <= 2 * mobility && movementCost > 0) {
-		isMoving = true;
-		UseActionPoint();
-		UseActionPoint();
+		Run();
 	}
 	else {
 		isMoving = false;
@@ -220,10 +236,22 @@ bool ABaseUnit::StartMoving(ABaseTile* target) {
 	return isMoving;
 }
 
+void ABaseUnit::Run(){
+	isMoving = true;
+	UseActionPoint();
+	UseActionPoint();
+}
+
+void ABaseUnit::Walk(){
+	isMoving = true;
+	UseActionPoint();
+}
+
 //Snaps unit to tile.
 void ABaseUnit::StopMoving(ABaseTile* target) {
 	isMoving = false;
-	
+	target->Occupy();
+
 	//Update Grid Location
 	gridLocation = target->GetGridLocation();
 

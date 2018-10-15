@@ -26,6 +26,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void UseActionPoint();
+	ABaseTile* GetCurrentTile();
 
 protected:
 	AUnderworldGameState* gameState;
@@ -52,6 +53,8 @@ protected:
 
 
 public:	
+	void SpawnInit(Point p);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -76,8 +79,14 @@ public:
 	UFUNCTION()
 	void RefreshActionPoints();
 
+	
+
 	UFUNCTION(BlueprintCallable)
 	bool StartMoving(ABaseTile* target);
+
+	void Run();
+
+	void Walk();
 	
 	UFUNCTION(BlueprintCallable)
 	void StopMoving(ABaseTile* target);
