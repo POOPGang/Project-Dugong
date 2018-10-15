@@ -46,6 +46,9 @@ public:	//ctors
 
 		return tiles[(row * cols) + col];
 	}
+	ABaseTile* operator() (Point p) {
+		return this->operator() (p.x, p.y);
+	}
 
 protected:
 	AUnderworldGameState* gameState;
