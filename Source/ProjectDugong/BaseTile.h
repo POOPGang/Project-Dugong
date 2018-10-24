@@ -55,4 +55,7 @@ public:
 
 	Point GetGridLocation();
 
+	void Occupy();
+	void DeOccupy();
+
 };

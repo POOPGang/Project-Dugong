@@ -78,3 +78,11 @@ void ABaseTile::SwapMaterial(UMaterial* newMaterial) {
 Point ABaseTile::GetGridLocation() {
 	return gridLocation;
 }
+
+void ABaseTile::Occupy(){
+	isOccupied = true;
+}
+
+void ABaseTile::DeOccupy(){
+	isOccupied = false;
+}
