@@ -14,7 +14,7 @@ void AUnderworldUnitController::MoveUnit(ABaseUnit* unit, ABaseTile* target) {
 	
 	unit->SetCanAffectNavigationGeneration(false);
 	unit->StartMoving(target);
-	MoveToActor(target, 0.1, false, true, true);
+	MoveToActor(target, 0.1, false, true, false);
 	unit->StopMoving(target);
 	unit->SetCanAffectNavigationGeneration(false);
 }

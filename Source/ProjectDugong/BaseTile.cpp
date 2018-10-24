@@ -86,3 +86,7 @@ void ABaseTile::Occupy(){
 void ABaseTile::DeOccupy(){
 	isOccupied = false;
 }
+
+bool ABaseTile::GetIsOccupied(){
+	return isOccupied;
+}

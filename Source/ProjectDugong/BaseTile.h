@@ -58,4 +58,6 @@ public:
 	void Occupy();
 	void DeOccupy();
 
+	UFUNCTION(BlueprintCallable)
+	bool GetIsOccupied();
 };

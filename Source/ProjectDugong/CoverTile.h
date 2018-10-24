@@ -13,6 +13,9 @@ UCLASS()
 class PROJECTDUGONG_API ACoverTile : public ABaseTile
 {
 	GENERATED_BODY()
-
+	
+public:
+	int DefenseBonus;
+	ACoverTile();
 
 };

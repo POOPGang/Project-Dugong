@@ -2,4 +2,7 @@
 
 #include "CoverTile.h"
 
-
+ACoverTile::ACoverTile(){
+	DefenseBonus = 40;
+	isOccupied = true;
+}
