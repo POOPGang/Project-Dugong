@@ -3,6 +3,8 @@
 #pragma once
 class ATileMap;
 class ABaseUnit;
+class APlayerUnit;
+class AEnemyUnit;
 class ABaseTile;
 
 #include "CoreMinimal.h"
@@ -22,6 +24,9 @@ private:
 	ATileMap* underworldMap;
 	ABaseUnit* activeUnit;
 	ABaseTile* activeTile;
+
+	TArray<ABaseUnit*> PlayerTeam;
+	TArray<ABaseUnit*> EnemyTeam;
 	
 	bool isPlayerTurn;
 
@@ -55,4 +60,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	bool GetIsPlayerTurn();
+
+	void RegisterPlayerUnit(ABaseUnit* unit);
+	void UnregisterPlayerUnit(ABaseUnit* unit);
+
+	void RegisterEnemyUnit(ABaseUnit* unit);
+	void UnregisterEnemyUnit(ABaseUnit* unit);
 };

@@ -3,6 +3,7 @@
 #include "UnderworldGameState.h"
 #include "TileMap.h"
 #include "BaseUnit.h"
+#include "PlayerUnit.h"
 #include "BaseTile.h"
 
 void AUnderworldGameState::BeginPlay() {
@@ -78,4 +79,20 @@ void AUnderworldGameState::ToggleTurn() {
 
 bool AUnderworldGameState::GetIsPlayerTurn() {
 	return isPlayerTurn;
+}
+
+void AUnderworldGameState::RegisterPlayerUnit(ABaseUnit* unit){
+	PlayerTeam.Add(unit);
+}
+
+void AUnderworldGameState::UnregisterPlayerUnit(ABaseUnit * unit){
+	//TODO
+}
+
+void AUnderworldGameState::RegisterEnemyUnit(ABaseUnit* unit){
+	EnemyTeam.Add(unit);
+}
+
+void AUnderworldGameState::UnregisterEnemyUnit(ABaseUnit * unit){
+	//TODO
 }

@@ -27,6 +27,7 @@ protected:
 	virtual void BeginPlay() override;
 	void UseActionPoint();
 	ABaseTile* GetCurrentTile();
+	void Die();
 
 protected:
 	AUnderworldGameState* gameState;

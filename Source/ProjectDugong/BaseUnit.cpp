@@ -59,6 +59,10 @@ ABaseTile* ABaseUnit::GetCurrentTile() {
 	return gameState->GetUnderworldMap()->operator()(gridLocation);
 }
 
+void ABaseUnit::Die(){
+	SetLifeSpan(100);
+}
+
 void ABaseUnit::SpawnInit(Point p){
 	ABaseTile* spawnTile = GetCurrentTile();
 	spawnTile->Occupy();
@@ -67,6 +71,9 @@ void ABaseUnit::SpawnInit(Point p){
 // Called every frame
 void ABaseUnit::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
+	if (hp <= 0) {
+		Die();
+	}
 }
 
 // Called to bind functionality to input

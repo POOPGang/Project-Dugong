@@ -11,8 +11,12 @@ class PROJECTDUGONG_API APlayerUnit : public ABaseUnit
 {
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable)
+protected:
+	void BeginPlay();
+	void Die();
 
+public:
+	UFUNCTION(BlueprintCallable)
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 	void Init(FString name, int maxHP, int hp, int mobility, int aim, int maxAP, int ap, bool isMoving);
 
