@@ -227,7 +227,7 @@ void ABaseUnit::RefreshActionPoints() {
 bool ABaseUnit::StartMoving(ABaseTile* target) {
 	ABaseTile* currTile = GetCurrentTile();
 	currTile->DeOccupy();
-	
+	SetCanAffectNavigationGeneration(false);
 	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
 
 	if ( movementCost <= mobility && movementCost > 0) {

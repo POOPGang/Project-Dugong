@@ -8,9 +8,10 @@ public class ProjectDugong : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ProceduralMeshComponent" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ProceduralMeshComponent", "AIModule" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+
+        PrivateDependencyModuleNames.AddRange(new string[] {  });
 
         if (Target.Type == TargetRules.TargetType.Editor) {
             PublicDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
