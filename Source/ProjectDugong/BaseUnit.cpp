@@ -258,7 +258,7 @@ void ABaseUnit::Walk(){
 void ABaseUnit::StopMoving(ABaseTile* target) {
 	isMoving = false;
 	target->Occupy();
-
+	SetCanAffectNavigationGeneration(true);
 	//Update Grid Location
 	gridLocation = target->GetGridLocation();
 
