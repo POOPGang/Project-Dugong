@@ -6,9 +6,11 @@
 #include "BaseTile.h"
 #include "PlayerUnit.h"
 #include "EnemyUnit.h"
+#include "CoverTile.h"
 #include "UnderworldGameState.h"
 
 #include "UObject/ConstructorHelpers.h"
+#include "GenericPlatformMath.h"
 
 #include "Engine/World.h"
 #include "Engine/StaticMeshActor.h"
@@ -25,34 +27,83 @@ ATileMap::ATileMap() {
 	cols = 10;
 	tileSize = 100;
 	tilePadding = 10;
+	numAllies = 3;
+	numEnemies = 6;
 
 }
 
 //Private Functions
 
-//Creates a tileSize x tileSize mesh for each tile in the map.
-void ATileMap::CreateTile(int row, int col){
+void ATileMap::SpawnBasicTile(int row, int col){
 	FVector	location = PointToLocation(row, col);
 	FRotator rotation(0, 0, 0);
 	FActorSpawnParameters spawnInfo;
 	ABaseTile* tile = GetWorld()->SpawnActor<ABaseTile>(baseTileBP, location, rotation, spawnInfo);
-	tile->Init(Point(row, col), tileSize, tilePadding, tiles.Num(), false);
+	tile->Init(Point(row, col), tileSize, tilePadding, tiles.Num());
 	tiles.Add(tile);
+}
+
+void ATileMap::SpawnCoverTile(int row, int col){
+	FVector	location = PointToLocation(row, col);
+	FRotator rotation(0, 0, 0);
+	FActorSpawnParameters spawnInfo;
+	ABaseTile* tile = GetWorld()->SpawnActor<ACoverTile>(CoverTileBP, location, rotation, spawnInfo);
+	tile->Init(Point(row, col), tileSize, tilePadding, tiles.Num());
+	tiles.Add(tile);
+}
+
+//Creates a tileSize x tileSize mesh for each tile in the map.
+void ATileMap::SpawnTile(int row, int col){
+	float choice = FGenericPlatformMath::FRand();
+
+	if ((row <= rows / 5) || (col <= cols / 5) || row >= (rows - rows/5) || col >= (cols - cols/5)) {
+		SpawnBasicTile(row, col);
+	}
+	else if (choice <= .8) {
+		SpawnBasicTile(row, col);
+	}
+	else {
+		SpawnCoverTile(row, col);
+	}
+	
 }
 
 void ATileMap::GenerateMap() {
 	//Fill map with point data
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
-			CreateTile(i, j);
+			SpawnTile(i, j);
 		}
+	}
+}
+
+Point ATileMap::FindAlliedSpawnLocation(){
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (operator()(i, j)->GetIsOccupied() == false) {
+				return Point(i, j);
+			}
+		}
+	}
+	return Point(0, 0);
+}
+
+void ATileMap::SpawnPlayerTeam(){
+	
+	for (int i = 0; i < numAllies; i++) {
+		Point spawnPoint = FindAlliedSpawnLocation();
+		FVector spawnLocation = PointToLocation(spawnPoint);
+		spawnLocation.Z += 83;
+		//Spawn
+		APlayerUnit* unit = GetWorld()->SpawnActor<APlayerUnit>(playerUnitBP,spawnLocation, FRotator(0,0,0));
+		unit->SpawnInit(spawnPoint);
 	}
 }
 
 void ATileMap::SpawnUnits() {
 	//Redo to use SpawnInit()
 	
-	FVector location = PointToLocation(10, 10);
+	/*FVector location = PointToLocation(10, 10);
 	FVector location2 = PointToLocation(9, 9);
 	FVector enemyLocation = PointToLocation(11, 11);
 
@@ -67,42 +118,83 @@ void ATileMap::SpawnUnits() {
 	APlayerUnit* unit2 = GetWorld()->SpawnActor<APlayerUnit>(playerUnitBP, location2, rotation, spawnInfo);
 	unit2->SpawnInit(Point(9, 9));
 	AEnemyUnit* evilUnit = GetWorld()->SpawnActor<AEnemyUnit>(enemyUnitBP, enemyLocation, rotation, spawnInfo);
-	evilUnit->SpawnInit(Point(11, 11));
+	evilUnit->SpawnInit(Point(11, 11));*/
+
+	SpawnPlayerTeam();
+
+}
+
+bool ATileMap::ValidateEditorInput(){
+	if (baseTileBP == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire tile blueprint. Please validate editor input"));
+		return false;
+	}
+	
+	if (CoverTileBP == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire cover blueprint. Please validate editor input"));
+		return false;
+	}
+
+	if (baseUnitBP == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire base unit blueprint. Please validate editor input"));
+		return false;
+	}
+
+	if (playerUnitBP == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire player unit blueprint. Please validate editor input"));
+		return false;
+	}
+
+	if (enemyUnitBP == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire enemy unit blueprint. Please validate editor input"));
+		return false;
+	}
+
+	if (basicMaterial == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire basic tile material. Please validate editor input"));
+		return false;
+	}
+
+	if (firstMoveMaterial == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire first move display material. Please validate editor input"));
+		return false;
+	}
+
+	if (secondMoveMaterial == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, TEXT("Failed to aquire second move display material. Please validate editor input"));
+		return false;
+	}
+	return true;
 }
 
 
+
+bool ATileMap::AquireGameState(){
+	gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
+	if (gameState == nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Tile Map failed to aquire game state")));
+		return false;
+	}
+
+	return true;
+}
 
 //Protected Functions
 // Called when the game starts or when spawned
 void ATileMap::BeginPlay(){
 	Super::BeginPlay();
 
-	gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
-	if (gameState == nullptr) {
-		if (GEngine) {
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Base Unit failed to aquire game state")));
-		}
+	if (ValidateEditorInput() == false || AquireGameState() == false) {
 		return;
 	}
-
+	
 	gameState->SetUnderworldMap(this);
 
-	//Procedurally generate a map mesh
-	if (baseTileBP) {
-		GenerateMap();
-	}
-	else if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Tiles in Tile Map. Please supply tile blueprint in editor"));
-	}
+	//Spawn map
+	GenerateMap();
 
 	//Place units on board.
-	if (baseUnitBP) {
-		SpawnUnits();
-	}
-	else if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failed to Spawn Units in Tile Map. Please supply unit blueprint in editor"));
-	}
-
+	SpawnUnits();
 }
 
 //Public Functions
@@ -130,34 +222,42 @@ void ATileMap::ClearMovementTiles() {
 	dirtyTiles.Empty();
 }
 
+void ATileMap::DisplayFullRange(TArray<TArray<float>> &moveCosts, ABaseUnit * unit){
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (moveCosts[i][j] <= unit->GetMobility()) {
+				this->operator()(i, j)->SwapMaterial(firstMoveMaterial);
+				dirtyTiles.Add(this->operator()(i, j));
+			}
+
+			else if (moveCosts[i][j] <= unit->GetMobility() * 2 ) {
+				this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
+				dirtyTiles.Add(this->operator()(i, j));
+			}
+		}
+	}
+}
+
+void ATileMap::DisplayHalfRange(TArray<TArray<float>> &moveCosts, ABaseUnit * unit) {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (moveCosts[i][j] <= unit->GetMobility() ) {
+				this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
+				dirtyTiles.Add(this->operator()(i, j));
+			}
+		}
+	}
+}
+
 void ATileMap::DisplayMovementTiles(ABaseUnit* unit) {
 
 	auto moveCosts = unit->GetMoveCosts();
 
 	if (unit->GetActionPoints() > 1) {
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				if (moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0) {
-					this->operator()(i, j)->SwapMaterial(firstMoveMaterial);
-					dirtyTiles.Add(this->operator()(i, j));
-				}
-					
-				else if (moveCosts[i][j] <= unit->GetMobility() * 2 && moveCosts[i][j] > 0) {
-					this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
-					dirtyTiles.Add(this->operator()(i, j));
-				}
-			}
-		}
+		DisplayFullRange(moveCosts, unit);
 	}
 	else if (unit->GetActionPoints() > 0) {
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				if (moveCosts[i][j] <= unit->GetMobility() && moveCosts[i][j] > 0){
-					this->operator()(i, j)->SwapMaterial(secondMoveMaterial);
-					dirtyTiles.Add(this->operator()(i, j));
-				}
-			}
-		}
+		DisplayHalfRange(moveCosts, unit);
 	}
 	
 }

@@ -7,14 +7,19 @@
 
 void AUnderworldUnitController::MoveUnit(ABaseUnit* unit, ABaseTile* target) {
 	//Ensure Unit is elligable to move
-	if (unit->GetActionPoints() <= 0) {
+	
+	auto moveCosts = unit->GetMoveCosts();
+
+	if (unit->GetActionPoints() <= 0 || moveCosts[target->GetGridLocation().x][target->GetGridLocation().y] > (unit->GetMobility() * unit->GetActionPoints())) {
 		return;
 	}
-
 	
 	unit->SetCanAffectNavigationGeneration(false);
 	unit->StartMoving(target);
-	MoveToActor(target, 0.1, false, true, false);
+	MoveToLocation(target->GetActorLocation(), 0.5, false, true, true);
 	unit->StopMoving(target);
+	unit->TakeCover();
 	unit->SetCanAffectNavigationGeneration(false);
+
+	GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("Defense Bonus: %d"), unit->GetDefense()));
 }

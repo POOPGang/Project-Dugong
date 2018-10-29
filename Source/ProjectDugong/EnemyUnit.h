@@ -11,10 +11,12 @@ class PROJECTDUGONG_API AEnemyUnit : public ABaseUnit
 {
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable)
-
+protected:
+	void Die();
+public:
 	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
 	void Init(FString name, int maxHP, int hp, int mobility, int aim, int maxAP, int ap, bool isMoving);
 	
-
+	void Select() override {}
+	void Deselect() override {}
 };
