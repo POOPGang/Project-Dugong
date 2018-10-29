@@ -50,6 +50,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString ERROR_message = FString(TEXT("ERROR"));
 
+	UPROPERTY(BlueprintReadWrite)
+		bool CombatVictory;
+
 	//UFUNCTION(BlueprintCallable)
 	//function to pull squad list from ?
 
