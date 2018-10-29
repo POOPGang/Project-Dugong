@@ -7,6 +7,7 @@ class ABaseUnit;
 class APlayerUnit;
 class AEnemyUnit;
 class ABaseTile;
+class ACoverTile;
 
 
 
@@ -28,10 +29,22 @@ private: //Private member variables and functions
 	//Tiles that need to be cleaned up when move display appears
 	TArray<ABaseTile*> dirtyTiles;
 
-	void CreateTile(int row, int col);
+	void SpawnBasicTile(int row, int col);
+	void SpawnCoverTile(int row, int col);
+	void SpawnTile(int row, int col);
+
 	void GenerateMap();
+
+	Point FindAlliedSpawnLocation();
+
+	void SpawnPlayerTeam();
 	void SpawnUnits();
 
+	bool ValidateEditorInput();
+	bool AquireGameState();
+
+	void DisplayFullRange(TArray<TArray<float>> &moveCosts, ABaseUnit * unit);
+	void DisplayHalfRange(TArray<TArray<float>> &moveCosts, ABaseUnit * unit);
 
 public:	//ctors
 	// Sets default values for this actor's properties
@@ -52,6 +65,7 @@ public:	//ctors
 
 protected:
 	AUnderworldGameState* gameState;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -68,6 +82,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Actors)
 	TSubclassOf<ABaseTile> baseTileBP;
 
+	UPROPERTY(EditAnywhere, Category = Actors)
+	TSubclassOf<ACoverTile> CoverTileBP;
+
 	UPROPERTY(EditAnywhere, Category = Materials)
 	UMaterial* basicMaterial;
 
@@ -77,17 +94,23 @@ public:
 	UPROPERTY(EditAnywhere, Category = Materials)
 	UMaterial* secondMoveMaterial;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = LevelGen)
 	int rows;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = LevelGen)
 	int cols;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = LevelGen)
 	int tileSize; 
 	
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = LevelGen)
 	int tilePadding;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	int numAllies;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	int numEnemies;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -98,7 +121,13 @@ public:
 
 	void ClearMovementTiles();
 
+
+
 	UFUNCTION(BlueprintCallable)
 	void DisplayMovementTiles(ABaseUnit* unit);
+
+
+
+	
 
 };

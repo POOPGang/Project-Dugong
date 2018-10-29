@@ -20,14 +20,15 @@ ABaseTile::ABaseTile(){
 	//tileMeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	//tileMeshComponent->OnBeginCursorOver.AddDynamic(this, &ABaseTile::CustomOnBeginMouseOver);
 
-	
+	isOccupied = false;
+	DefenseBonus = 0;
 }
-void ABaseTile::Init(Point p, int tileSize, int tilePadding, int index, bool isOccupied) {
+void ABaseTile::Init(Point p, int tileSize, int tilePadding, int index) {
 	gridLocation = p;
 	this->tileSize = tileSize;
 	this->tilePadding = tilePadding;
 	this->index = index;
-	this->isOccupied = isOccupied;
+
 }
 // Called when the game starts or when spawned
 void ABaseTile::BeginPlay(){
@@ -36,10 +37,9 @@ void ABaseTile::BeginPlay(){
 	gameState = Cast<AUnderworldGameState>(GetWorld()->GetGameState());
 	if (gameState == nullptr) {
 		if (GEngine) {
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Base Unit failed to aquire game state")));
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Base Tile failed to aquire game state")));
 		}
 	}
-	
 }
 
 // Called every frame
@@ -89,4 +89,8 @@ void ABaseTile::DeOccupy(){
 
 bool ABaseTile::GetIsOccupied(){
 	return isOccupied;
+}
+
+int ABaseTile::GetDefenseBonus() {
+	return DefenseBonus;
 }

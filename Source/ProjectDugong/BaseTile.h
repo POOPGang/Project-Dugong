@@ -22,7 +22,7 @@ public:
 
 	// Sets default values for this actor's properties
 	ABaseTile();
-	void Init(Point p, int tileSize, int tilePadding, int index, bool isOccupied);
+	void Init(Point p, int tileSize, int tilePadding, int index);
 
 protected:
 	AUnderworldGameState* gameState;
@@ -31,6 +31,7 @@ protected:
 	int tileSize;
 	int tilePadding;
 	int index;
+	int DefenseBonus;
 
 protected:
 	// Called when the game starts or when spawned
@@ -60,4 +61,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool GetIsOccupied();
+
+	UFUNCTION(BlueprintCallable)
+	int GetDefenseBonus();
 };

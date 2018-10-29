@@ -1,6 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EnemyUnit.h"
+#include "UnderworldGameState.h"
+
+void AEnemyUnit::Die() {
+	gameState->UnregisterEnemyUnit(this);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Oh, the pain")));
+
+}
 
 void AEnemyUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
 	//	Returns when clicked on and states it is an enemy unit.

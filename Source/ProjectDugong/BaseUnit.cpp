@@ -24,7 +24,10 @@ ABaseUnit::ABaseUnit(){
 	maxAP = ap = 2;
 	isMoving = false;
 	
+	Defense = 0;
+
 	SetCanAffectNavigationGeneration(true);
+	
 }
 
 void ABaseUnit::OnConstruction(const FTransform& Transform) {
@@ -59,6 +62,10 @@ ABaseTile* ABaseUnit::GetCurrentTile() {
 	return gameState->GetUnderworldMap()->operator()(gridLocation);
 }
 
+void ABaseUnit::Die(){
+	SetLifeSpan(100);
+}
+
 void ABaseUnit::SpawnInit(Point p){
 	ABaseTile* spawnTile = GetCurrentTile();
 	spawnTile->Occupy();
@@ -67,6 +74,9 @@ void ABaseUnit::SpawnInit(Point p){
 // Called every frame
 void ABaseUnit::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
+	if (hp <= 0) {
+		Die();
+	}
 }
 
 // Called to bind functionality to input
@@ -77,7 +87,7 @@ void ABaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 
 
-void ABaseUnit::UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed) {
+void ABaseUnit::UnitOnClicked() {
 	if (gameState && ap > 0) {
 		gameState->SetActiveUnit(this);
 	}
@@ -168,11 +178,9 @@ void ABaseUnit::PopulateMoveCosts(ATileMap* map) {
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				ABaseTile* targetTile = map->operator()(currLoc.x + i, currLoc.y + j);
-				
 				if (targetTile) { //If the neighbor tile is valid
 					Point targetLoc(targetTile->GetGridLocation());
-
-					if (!targetTile->isOccupied && !visited[targetLoc.x][targetLoc.y]) { //And it's not occupied and hasn't been visited
+					if (!targetTile->GetIsOccupied() && !visited[targetLoc.x][targetLoc.y]) { //And it's not occupied and hasn't been visited
 						moveCosts[targetLoc.x][targetLoc.y] = MinPathCost(targetLoc, moveCosts); //Find the cost to move to that tile
 						visited[targetLoc.x][targetLoc.y] = true; //Mark it as visited for future loops
 
@@ -209,18 +217,20 @@ bool ABaseUnit::GetIsMoving() {
 	return isMoving;
 }
 
+int ABaseUnit::GetDefense(){
+	return Defense;
+}
+
 void ABaseUnit::RefreshActionPoints() {
 	ap = maxAP;
 }
-
-
 
 
 //TODO: Convert to no args, do move check in AI controller.
 bool ABaseUnit::StartMoving(ABaseTile* target) {
 	ABaseTile* currTile = GetCurrentTile();
 	currTile->DeOccupy();
-	
+	SetCanAffectNavigationGeneration(false);
 	float movementCost = moveCosts[target->GetGridLocation().x][target->GetGridLocation().y];
 
 	if ( movementCost <= mobility && movementCost > 0) {
@@ -232,6 +242,8 @@ bool ABaseUnit::StartMoving(ABaseTile* target) {
 	else {
 		isMoving = false;
 	}
+
+	Defense = 10;
 
 	return isMoving;
 }
@@ -251,11 +263,30 @@ void ABaseUnit::Walk(){
 void ABaseUnit::StopMoving(ABaseTile* target) {
 	isMoving = false;
 	target->Occupy();
-
+	SetCanAffectNavigationGeneration(true);
 	//Update Grid Location
 	gridLocation = target->GetGridLocation();
 
 	gameState->GetUnderworldMap()->ClearMovementTiles();
 	PopulateMoveCosts(gameState->GetUnderworldMap());
 	gameState->GetUnderworldMap()->DisplayMovementTiles(this);
+}
+
+void ABaseUnit::TakeCover(){
+	auto map = gameState->GetUnderworldMap();
+	
+	int bonus = 0;;
+
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			ABaseTile* tile = map->operator()(gridLocation.x + i, gridLocation.y + j);
+			if (tile) {
+				int tempBonus = tile->GetDefenseBonus();
+				if ( tempBonus > bonus) {
+					bonus = tempBonus;
+				}
+			}
+		}
+	}
+	Defense = bonus;
 }
