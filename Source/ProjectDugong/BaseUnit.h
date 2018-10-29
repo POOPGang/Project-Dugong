@@ -50,6 +50,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	bool isMoving;
 
+	int Defense;
+
 	TArray<TArray<float>> moveCosts;
 
 
@@ -63,7 +65,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	
-	void UnitOnClicked(AActor* TouchedActor, FKey ButtonPressed);
+	void UnitOnClicked();
 	
 	void PopulateMoveCosts(ATileMap* map);
 	
@@ -77,10 +79,11 @@ public:
 	UFUNCTION(BlueprintCallable) 
 	bool GetIsMoving();
 
+	UFUNCTION(BlueprintCallable)
+	int GetDefense();
+
 	UFUNCTION()
 	void RefreshActionPoints();
-
-	
 
 	UFUNCTION(BlueprintCallable)
 	bool StartMoving(ABaseTile* target);
@@ -91,4 +94,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void StopMoving(ABaseTile* target);
+
+	void TakeCover();
+
+	virtual void Select() {}
+	virtual void Deselect() {}
 };

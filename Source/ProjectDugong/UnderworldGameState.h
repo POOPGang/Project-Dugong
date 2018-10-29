@@ -25,6 +25,7 @@ private:
 	ABaseUnit* activeUnit;
 	ABaseTile* activeTile;
 
+	int ActiveUnitIndex;
 	TArray<ABaseUnit*> PlayerTeam;
 	TArray<ABaseUnit*> EnemyTeam;
 	
@@ -60,6 +61,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	bool GetIsPlayerTurn();
+
+	UFUNCTION(BlueprintCallable)
+	void CycleUnit();
 
 	void RegisterPlayerUnit(ABaseUnit* unit);
 	void UnregisterPlayerUnit(ABaseUnit* unit);
