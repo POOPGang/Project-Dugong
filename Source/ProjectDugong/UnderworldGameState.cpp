@@ -84,6 +84,7 @@ bool AUnderworldGameState::GetIsPlayerTurn() {
 	return isPlayerTurn;
 }
 
+//Depricated. Only works for player team
 void AUnderworldGameState::CycleUnit(){
 	ActiveUnitIndex = (ActiveUnitIndex + 1) % PlayerTeam.Num();
 	SetActiveUnit(PlayerTeam[ActiveUnitIndex]);
