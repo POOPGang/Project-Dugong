@@ -16,9 +16,7 @@ void AEnemyUnit::Die() {
 }
 
 void AEnemyUnit::UnitOnClicked() {
-	//	Returns when clicked on and states it is an enemy unit.
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("An Enemy unit.")));
-	return;
+	Super::UnitOnClicked();
 
 }
 

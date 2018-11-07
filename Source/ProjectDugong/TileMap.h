@@ -35,9 +35,11 @@ private: //Private member variables and functions
 
 	void GenerateMap();
 
-	Point FindAlliedSpawnLocation();
+	Point FindPlayerSpawnLocation();
+	Point FindEnemySpawnLocation();
 
 	void SpawnPlayerTeam();
+	void SpawnEnemyTeam();
 	void SpawnUnits();
 
 	bool ValidateEditorInput();

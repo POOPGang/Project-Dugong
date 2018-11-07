@@ -77,7 +77,7 @@ void ATileMap::GenerateMap() {
 	}
 }
 
-Point ATileMap::FindAlliedSpawnLocation(){
+Point ATileMap::FindPlayerSpawnLocation(){
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			if (operator()(i, j)->GetIsOccupied() == false) {
@@ -88,14 +88,35 @@ Point ATileMap::FindAlliedSpawnLocation(){
 	return Point(0, 0);
 }
 
+Point ATileMap::FindEnemySpawnLocation(){
+	for (int i = rows-1; i >= 0; i--) {
+		for (int j = cols-1; j >= 0; j--) {
+			if (operator()(i, j)->GetIsOccupied() == false) {
+				return Point(i, j);
+			}
+		}
+	}
+	return Point(rows-1, cols-1);
+}
+
 void ATileMap::SpawnPlayerTeam(){
-	
 	for (int i = 0; i < numAllies; i++) {
-		Point spawnPoint = FindAlliedSpawnLocation();
+		Point spawnPoint = FindPlayerSpawnLocation();
 		FVector spawnLocation = PointToLocation(spawnPoint);
 		spawnLocation.Z += 83;
 		//Spawn
 		APlayerUnit* unit = GetWorld()->SpawnActor<APlayerUnit>(playerUnitBP,spawnLocation, FRotator(0,0,0));
+		unit->SpawnInit(spawnPoint);
+	}
+}
+
+void ATileMap::SpawnEnemyTeam(){
+	for (int i = 0; i < numEnemies; i++) {
+		Point spawnPoint = FindEnemySpawnLocation();
+		FVector spawnLocation = PointToLocation(spawnPoint);
+		spawnLocation.Z += 83;
+		//Spawn
+		AEnemyUnit* unit = GetWorld()->SpawnActor<AEnemyUnit>(enemyUnitBP, spawnLocation, FRotator(0, 180, 0));
 		unit->SpawnInit(spawnPoint);
 	}
 }
@@ -121,7 +142,7 @@ void ATileMap::SpawnUnits() {
 	evilUnit->SpawnInit(Point(11, 11));*/
 
 	SpawnPlayerTeam();
-
+	SpawnEnemyTeam();
 }
 
 bool ATileMap::ValidateEditorInput(){
