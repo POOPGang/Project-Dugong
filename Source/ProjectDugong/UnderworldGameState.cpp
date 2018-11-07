@@ -9,7 +9,7 @@
 void AUnderworldGameState::BeginPlay() {
 	Super::BeginPlay();
 	isPlayerTurn = true;
-	ActiveUnitIndex = 1;
+	ActiveUnitIndex = 0;
 }
 
 ATileMap* AUnderworldGameState::GetUnderworldMap() {
@@ -75,7 +75,16 @@ void AUnderworldGameState::ClearActiveUnit() {
 }
 
 void AUnderworldGameState::ToggleTurn() {
+	//isPlayerTurn = !isPlayerTurn;
+	if (isPlayerTurn) {
+		BeginEnemyTurn();
+	}
+	else {
+		BeginPlayerTurn();
+	}
+
 	isPlayerTurn = !isPlayerTurn;
+
 }
 
 bool AUnderworldGameState::GetIsPlayerTurn() {
@@ -102,4 +111,46 @@ void AUnderworldGameState::RegisterEnemyUnit(ABaseUnit* unit){
 
 void AUnderworldGameState::UnregisterEnemyUnit(ABaseUnit * unit){
 	//TODO
+}
+
+void AUnderworldGameState::BeginPlayerTurn() {
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Begin Player Turn.")));
+	for (auto unit : PlayerTeam) {
+		unit->RefreshActionPoints();
+	}
+}
+
+void AUnderworldGameState::BeginEnemyTurn(){
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Begin Enemy Turn.")));
+	for (auto unit : EnemyTeam) {
+		unit->RefreshActionPoints();
+	}
+}
+
+void AUnderworldGameState::UpdatePlayerTurn(){
+	for (auto unit : PlayerTeam) {
+		if (unit->GetActionPoints() > 0) {
+			return;
+		}
+	}
+	ToggleTurn();
+}
+
+void AUnderworldGameState::UpdateEnemyTurn(){
+	for (auto unit : EnemyTeam) {
+		if (unit->GetActionPoints() > 0) {
+			return;
+		}
+	}
+	ToggleTurn();
+}
+
+void AUnderworldGameState::Update(){
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Update.")));
+	if (isPlayerTurn) {
+		UpdatePlayerTurn();
+	}
+	else {
+		UpdateEnemyTurn();
+	}
 }

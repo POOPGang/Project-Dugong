@@ -70,4 +70,13 @@ public:
 
 	void RegisterEnemyUnit(ABaseUnit* unit);
 	void UnregisterEnemyUnit(ABaseUnit* unit);
+
+	void BeginPlayerTurn();
+	void BeginEnemyTurn();
+
+	void UpdatePlayerTurn();
+	void UpdateEnemyTurn();
+
+	UFUNCTION(BlueprintCallable)
+	void Update();
 };

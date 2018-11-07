@@ -14,5 +14,4 @@ class PROJECTDUGONG_API AUnderworldGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
-	
 };
