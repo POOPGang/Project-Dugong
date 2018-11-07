@@ -63,7 +63,7 @@ ABaseTile* ABaseUnit::GetCurrentTile() {
 }
 
 void ABaseUnit::Die(){
-	SetLifeSpan(100);
+	//SetLifeSpan(100);
 }
 
 void ABaseUnit::SpawnInit(Point p){
@@ -71,6 +71,17 @@ void ABaseUnit::SpawnInit(Point p){
 	spawnTile->Occupy();
 }
 
+//	Initialization function to set instances of ABaseUnit to desired settings
+void ABaseUnit::Init(FString name, int maxHP, int hp, int mobility, int aim, int maxAP, int ap, bool isMoving) {
+	this->name = name;
+	this->maxHP = maxHP;
+	this->hp = hp;
+	this->mobility = mobility;
+	this->aim = aim;
+	this->maxAP = maxAP;
+	this->ap = ap;
+	this->isMoving = isMoving;
+}
 // Called every frame
 void ABaseUnit::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);

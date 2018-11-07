@@ -38,12 +38,10 @@ void AUnderworldGameState::SetActiveUnit(ABaseUnit* unit) {
 	//If there is already an active unit, clear the tile highlighting before re-applying.
 	if (activeUnit != nullptr) {
 		underworldMap->ClearMovementTiles();
-		activeUnit->Deselect();
 	}
 	
 	activeUnit = unit;
 	activeUnit->PopulateMoveCosts(underworldMap);
-	activeUnit->Select();
 	underworldMap->DisplayMovementTiles(activeUnit);
 
 }

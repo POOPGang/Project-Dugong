@@ -15,19 +15,14 @@ class PROJECTDUGONG_API APlayerUnit : public ABaseUnit
 private:
 	//UBillboardComponent* SelectionArrow;
 protected:
-	void BeginPlay();
-	void Die();
+	void BeginPlay() override;
+	void Die() override;
 
 public:
 
 	APlayerUnit();
 
 	UFUNCTION(BlueprintCallable)
-	void UnitOnClicked();
-	void Init(FString name, int maxHP, int hp, int mobility, int aim, int maxAP, int ap, bool isMoving);
-
-	UFUNCTION(BlueprintCallable)
-	void Select() override;
-
-	void Deselect() override;
+	void UnitOnClicked() override;
+	
 };

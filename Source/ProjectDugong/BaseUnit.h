@@ -27,7 +27,7 @@ protected:
 	virtual void BeginPlay() override;
 	void UseActionPoint();
 	ABaseTile* GetCurrentTile();
-	void Die();
+	virtual void Die();
 
 protected:
 	AUnderworldGameState* gameState;
@@ -57,7 +57,7 @@ protected:
 
 public:	
 	void SpawnInit(Point p);
-
+	void Init(FString name, int maxHP, int hp, int mobility, int aim, int maxAP, int ap, bool isMoving);
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -65,7 +65,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	
-	void UnitOnClicked();
+	virtual void UnitOnClicked();
 	
 	void PopulateMoveCosts(ATileMap* map);
 	
@@ -97,6 +97,4 @@ public:
 
 	void TakeCover();
 
-	virtual void Select() {}
-	virtual void Deselect() {}
 };
