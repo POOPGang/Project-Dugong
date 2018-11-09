@@ -6,7 +6,7 @@
 void AEnemyUnit::BeginPlay() {
 	Super::BeginPlay();
 
-	gameState->RegisterPlayerUnit(this);
+	gameState->RegisterEnemyUnit(this);
 }
 
 void AEnemyUnit::Die() {

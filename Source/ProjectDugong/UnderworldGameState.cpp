@@ -108,6 +108,7 @@ void AUnderworldGameState::UnregisterPlayerUnit(ABaseUnit * unit){
 }
 
 void AUnderworldGameState::RegisterEnemyUnit(ABaseUnit* unit){
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Enemy Unit.")));
 	EnemyTeam.Add(unit);
 }
 
