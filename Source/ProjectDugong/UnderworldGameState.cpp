@@ -75,6 +75,7 @@ void AUnderworldGameState::ClearActiveUnit() {
 }
 
 void AUnderworldGameState::ToggleTurn() {
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Toggling Turn")));
 	//isPlayerTurn = !isPlayerTurn;
 	if (isPlayerTurn) {
 		BeginEnemyTurn();
@@ -98,6 +99,7 @@ void AUnderworldGameState::CycleUnit(){
 }
 
 void AUnderworldGameState::RegisterPlayerUnit(ABaseUnit* unit){
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Player Unit.")));
 	PlayerTeam.Add(unit);
 }
 
@@ -115,6 +117,7 @@ void AUnderworldGameState::UnregisterEnemyUnit(ABaseUnit * unit){
 
 void AUnderworldGameState::BeginPlayerTurn() {
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Begin Player Turn.")));
+	ActiveUnitIndex = 0;
 	for (auto unit : PlayerTeam) {
 		unit->RefreshActionPoints();
 	}
@@ -122,13 +125,16 @@ void AUnderworldGameState::BeginPlayerTurn() {
 
 void AUnderworldGameState::BeginEnemyTurn(){
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Begin Enemy Turn.")));
+	ActiveUnitIndex = 0;
 	for (auto unit : EnemyTeam) {
 		unit->RefreshActionPoints();
 	}
 }
 
 void AUnderworldGameState::UpdatePlayerTurn(){
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("PlayerTeamSize: %d."), PlayerTeam.Num()));
 	for (auto unit : PlayerTeam) {
+		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("UnitAP: %d."), unit->GetActionPoints()));
 		if (unit->GetActionPoints() > 0) {
 			return;
 		}
