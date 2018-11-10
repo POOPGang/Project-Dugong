@@ -99,7 +99,7 @@ void AUnderworldGameState::CycleUnit(){
 }
 
 void AUnderworldGameState::RegisterPlayerUnit(ABaseUnit* unit){
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Player Unit.")));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Player Unit.")));
 	PlayerTeam.Add(unit);
 }
 
@@ -108,7 +108,7 @@ void AUnderworldGameState::UnregisterPlayerUnit(ABaseUnit * unit){
 }
 
 void AUnderworldGameState::RegisterEnemyUnit(ABaseUnit* unit){
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Enemy Unit.")));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Enemy Unit.")));
 	EnemyTeam.Add(unit);
 }
 
