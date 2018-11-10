@@ -47,6 +47,7 @@ By combining these ideas from various games and forming them into one cohesive p
    * [UML Diagram](https://github.com/POOPGang/Project-Dugong/blob/master/Product%20Management/UML/SystemArchitecture.png)
  * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source/ProjectDugong)
  * [Test Cases](https://docs.google.com/document/d/16wGrqnlRM9mFTLT-MLySIljmC85bJdxhTIYiHKHqB6o/edit?usp=sharing)
+ * Demo
 
 
 # **Build Instructions** #
