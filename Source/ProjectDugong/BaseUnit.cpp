@@ -288,8 +288,8 @@ void ABaseUnit::TakeCover(){
 	
 	int bonus = 0;;
 
-	for (int i = -1; i <= 1; i+=2) {
-		for (int j = -1; j <= 1; j+=2) {
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
 			ABaseTile* tile = map->operator()(gridLocation.x + i, gridLocation.y + j);
 			if (tile) {
 				int tempBonus = tile->GetDefenseBonus();
