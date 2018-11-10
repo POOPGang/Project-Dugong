@@ -46,17 +46,7 @@ By combining these ideas from various games and forming them into one cohesive p
  * Design Documents
    * [UML Diagram](https://github.com/POOPGang/Project-Dugong/blob/master/Product%20Management/UML/SystemArchitecture.png)
  * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source/ProjectDugong)
- * Test Cases
-
-# **Sprint 4** #
-## - Artifacts: ##
- * [Product Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=0)
- * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1FxY-qbvGDkkUI8tIZJHYso7-Uor7JPo_f5E1Ujkn6xM/edit#gid=1578825482)
- * [Burndown Chart](https://docs.google.com/spreadsheets/d/1I-cR443cr63v2pQKkErty8p0xOWFpqf7G6ANbKBXxFQ/edit#gid=170721525)
- * Requirements
- * Design Documents
- * [Source Code](https://github.com/POOPGang/Project-Dugong/tree/master/Source)
- * Test Cases
+ * [Test Cases](https://docs.google.com/document/d/16wGrqnlRM9mFTLT-MLySIljmC85bJdxhTIYiHKHqB6o/edit?usp=sharing)
 
 
 # **Build Instructions** #
