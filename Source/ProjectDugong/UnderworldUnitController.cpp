@@ -21,5 +21,5 @@ void AUnderworldUnitController::MoveUnit(ABaseUnit* unit, ABaseTile* target) {
 	unit->TakeCover();
 	unit->SetCanAffectNavigationGeneration(false);
 
-	GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("Defense Bonus: %d"), unit->GetDefense()));
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, FString::Printf(TEXT("Defense Bonus: %d"), unit->GetDefense()));
 }
