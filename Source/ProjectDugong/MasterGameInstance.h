@@ -9,6 +9,8 @@ class ABaseTile;
 #include "GameFramework/Actor.h"
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "MasterOverworldSave.h"
+#include "Kismet/GameplayStatics.h"
 #include "MasterGameInstance.generated.h"
 
 /**
@@ -49,6 +51,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString ERROR_message = FString(TEXT("ERROR"));
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//UMasterOverworldSave* SaveGameInstance = Cast<UMasterOverworldSave>(UGameplayStatics::CreateSaveGameObject(UMasterOverworldSave::StaticClass()));
 
 	//UFUNCTION(BlueprintCallable)
 	//function to pull squad list from ?
