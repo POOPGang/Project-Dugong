@@ -65,6 +65,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CycleUnit();
 
+	int GetPlayerTeamSize();
+	int GetEnemyTeamSize();
+
 	void RegisterPlayerUnit(ABaseUnit* unit);
 	void UnregisterPlayerUnit(ABaseUnit* unit);
 

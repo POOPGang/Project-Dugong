@@ -98,6 +98,14 @@ void AUnderworldGameState::CycleUnit(){
 	SetActiveUnit(PlayerTeam[ActiveUnitIndex]);
 }
 
+int AUnderworldGameState::GetPlayerTeamSize(){
+	return PlayerTeam.Num();
+}
+
+int AUnderworldGameState::GetEnemyTeamSize(){
+	return EnemyTeam.Num();
+}
+
 void AUnderworldGameState::RegisterPlayerUnit(ABaseUnit* unit){
 	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("Register Player Unit.")));
 	PlayerTeam.Add(unit);
