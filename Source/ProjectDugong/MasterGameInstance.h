@@ -59,7 +59,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool dist2 = 0;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FName curDist = FName(TEXT("Overworld"));
 
 	//UFUNCTION(BlueprintCallable)
 	//function to pull squad list from ?
